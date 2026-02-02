@@ -1,108 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valentine Challenge 💘</title>
+<meta charset="UTF-8">
+<title>Valentine Challenge 💘</title>
 
-  <style>
-    body {
-      background-color: #ffe6f0;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-    }
+<style>
+  body {
+    background-color: #ffe6f0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
 
-    h1, h2 {
-      color: #d63384;
-    }
+  h1, h2 {
+    color: #d63384;
+  }
 
-    button {
-      padding: 15px 25px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 10px;
-    }
+  button {
+    padding: 15px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+  }
 
-    .yes {
-      background-color: #ff4d88;
-      color: white;
-    }
+  .yes {
+    background-color: #ff4d88;
+    color: white;
+  }
 
-    .no {
-      background-color: #ccc;
-      position: absolute;
-    }
+  .no {
+    background-color: #ccc;
+    position: absolute;
+  }
 
-    .hidden {
-      display: none;
-    }
+  .hidden {
+    display: none;
+  }
 
-    .container {
-      position: relative;
-      height: 200px;
-    }
+  .container {
+    position: relative;
+    height: 200px;
+  }
 
-    img {
-      width: 280px;
-      margin-top: 20px;
-      border-radius: 15px;
-    }
-  </style>
+  img {
+    width: 280px;
+    margin-top: 20px;
+    border-radius: 15px;
+  }
+</style>
 </head>
 
 <body>
 
-  <h1>💖 Will you be my Valentine? 💖</h1>
+<h1>💖 Will you be my Valentine? 💖</h1>
 
-  <div class="container">
-    <button class="yes" id="yesBtn">Yes 💘</button>
-    <button class="no" id="noBtn">No 🙄</button>
-  </div>
+<div class="container">
+  <button class="yes" id="yesBtn">Yes 💘</button>
+  <button class="no" id="noBtn">No 🙄</button>
+</div>
 
-  <div id="wrongAnswer" class="hidden">
-    <h2>❌ Wrong answer. Try again 😌</h2>
-    <img src="https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif">
-  </div>
+<div id="wrongAnswer" class="hidden">
+  <h2>❌ Wrong answer. Try again 😼</h2>
+  <img src="https://media.tenor.com/U7k8nKp7Z5sAAAAC/orange-cat-slap.gif">
+</div>
 
-  <div id="rightAnswer" class="hidden">
-    <h2>😻 You made the RIGHT choice 💕</h2>
-    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
-  </div>
+<div id="rightAnswer" class="hidden">
+  <h2>😻 Congratulations! You made the right choice 💕</h2>
+  <img src="https://media.tenor.com/2v2bJzQmFZ8AAAAC/cat-kiss.gif">
+</div>
 
-  <div id="nextStep" class="hidden">
-    <h2>🎁 You have won a special gift!</h2>
-    <a href="question2.html">
-      <button class="yes">Click here for your gift 🎉</button>
-    </a>
-  </div>
+<div id="nextStep" class="hidden">
+  <h2>🎁 You have won a special gift!</h2>
+  <button class="yes" id="giftBtn">Click here for your gift 🎉</button>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    let hoverCount = 0;
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const giftBtn = document.getElementById("giftBtn");
 
-    noBtn.addEventListener("mouseover", () => {
-      if (hoverCount < 5) {
-        noBtn.style.left = Math.random() * 300 + "px";
-        noBtn.style.top = Math.random() * 120 + "px";
-        hoverCount++;
-      }
-    });
+  let hoverCount = 0;
 
-    noBtn.addEventListener("click", () => {
+  noBtn.addEventListener("mouseover", () => {
+    if (hoverCount < 6) {
+      noBtn.style.left = Math.random() * 300 + "px";
+      noBtn.style.top = Math.random() * 120 + "px";
+      hoverCount++;
+    }
+  });
+
+  noBtn.addEventListener("click", () => {
+    if (hoverCount >= 6) {
       document.getElementById("wrongAnswer").classList.remove("hidden");
       setTimeout(() => {
         document.getElementById("wrongAnswer").classList.add("hidden");
-      }, 2000);
-    });
+      }, 2500);
+    }
+  });
 
-    yesBtn.addEventListener("click", () => {
-      document.getElementById("rightAnswer").classList.remove("hidden");
-      document.getElementById("nextStep").classList.remove("hidden");
-    });
-  </script>
+  yesBtn.addEventListener("click", () => {
+    document.getElementById("rightAnswer").classList.remove("hidden");
+    document.getElementById("nextStep").classList.remove("hidden");
+  });
+
+  giftBtn.addEventListener("click", () => {
+    window.location.href = "question2.html";
+  });
+</script>
 
 </body>
 </html>
