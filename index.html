@@ -1,82 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Be My Valentine 💘</title>
+  <meta charset="UTF-8">
+  <title>Valentine Challenge 💘</title>
 
   <style>
     body {
       background-color: #ffe6f0;
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 100px;
+      padding: 50px;
     }
 
-    h1 {
+    h1, h2 {
       color: #d63384;
     }
 
-    .button-container {
-      position: relative;
-      height: 200px;
-      margin-top: 40px;
-    }
-
     button {
-      padding: 15px 30px;
-      font-size: 18px;
+      padding: 15px 25px;
+      font-size: 16px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      margin: 10px;
     }
 
-    #yesBtn {
+    .yes {
       background-color: #ff4d88;
       color: white;
     }
 
-    #noBtn {
+    .no {
       background-color: #ccc;
       position: absolute;
     }
 
-    #meme {
+    .hidden {
       display: none;
-      margin-top: 40px;
+    }
+
+    .container {
+      position: relative;
+      height: 200px;
+    }
+
+    img {
+      width: 280px;
+      margin-top: 20px;
+      border-radius: 15px;
+    }
+
+    .option-btn {
+      background-color: #ffb3c6;
+      color: #5a0f2e;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>💖 Will you be my Valentine? 💖</h1>
+  <!-- QUESTION 1 -->
+  <h1 id="q1">💖 Will you be my Valentine? 💖</h1>
 
-  <div class="button-container">
-    <button id="yesBtn">Yes 💘</button>
-    <button id="noBtn">No 🙄</button>
+  <div class="container">
+    <button class="yes" id="yesBtn">Yes 💘</button>
+    <button class="no" id="noBtn">No 🙄</button>
   </div>
 
-  <div id="meme">
-    <h2>YAYYYY 🥰🎉</h2>
-    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="300">
-    <p>You are officially my Valentine ❤️</p>
+  <!-- WRONG ANSWER -->
+  <div id="wrongAnswer" class="hidden">
+    <h2>❌ Wrong answer. Try again 😌</h2>
+    <img src="https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif">
   </div>
+
+  <!-- RIGHT ANSWER -->
+  <div id="rightAnswer" class="hidden">
+    <h2>😻 Congratulations! You made the right choice 💕</h2>
+    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+  </div>
+
+  <!-- QUESTION 2 INTRO -->
+  <div id="giftIntro" class="hidden">
+    <h2>🎁 You have won a special gift for choosing the right answer!</h2>
+    <button class="yes" id="giftBtn">Click here for your gift 🎉</button>
+  </div>
+
+  <!-- QUESTION 2 -->
+  <div id="q2" class="hidden">
+    <h1>Choose your reward 😏</h1>
+
+    <button class="option-btn" onclick="showGift('A')">A</button>
+    <button class="option-btn" onclick="showGift('B')">B</button>
+    <button class="option-btn" onclick="showGift('C')">C</button>
+  </div>
+
+  <!-- GIFT RESULT -->
+  <div id="giftResult"></div>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const meme = document.getElementById("meme");
+
+    let noHoverCount = 0;
 
     noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * 300;
-      const y = Math.random() * 150;
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      if (noHoverCount < 5) {
+        const x = Math.random() * 300;
+        const y = Math.random() * 120;
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noHoverCount++;
+      }
+    });
+
+    noBtn.addEventListener("click", () => {
+      document.getElementById("wrongAnswer").classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("wrongAnswer").classList.add("hidden");
+      }, 2000);
     });
 
     yesBtn.addEventListener("click", () => {
-      meme.style.display = "block";
+      document.getElementById("rightAnswer").classList.remove("hidden");
+      document.getElementById("giftIntro").classList.remove("hidden");
     });
+
+    document.getElementById("giftBtn").addEventListener("click", () => {
+      document.getElementById("q2").classList.remove("hidden");
+    });
+
+    function showGift(choice) {
+      const result = document.getElementById("giftResult");
+
+      if (choice === "A") {
+        result.innerHTML = `
+          <h2>☕ You get to take me for coffee</h2>
+          <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+        `;
+      }
+
+      if (choice === "B") {
+        result.innerHTML = `
+          <h2>💎 You get to take me jewellery shopping</h2>
+          <img src="https://media.giphy.com/media/3o6gDWzmAzrpi5DQU8/giphy.gif">
+        `;
+      }
+
+      if (choice === "C") {
+        result.innerHTML = `
+          <h2>🍽 You get to make me dinner of my choice</h2>
+          <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
+        `;
+      }
+    }
   </script>
 
 </body>
