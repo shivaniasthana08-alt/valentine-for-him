@@ -1,80 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Your Reward 😏</title>
+<meta charset="UTF-8">
+<title>Your Reward 🎁</title>
 
-  <style>
-    body {
-      background-color: #fff0f5;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-    }
+<style>
+  body {
+    background-color: #fff0f5;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
 
-    h1, h2 {
-      color: #c2185b;
-    }
+  h1, h2 {
+    color: #c2185b;
+  }
 
-    button {
-      padding: 15px 25px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: none;
-      margin: 10px;
-      cursor: pointer;
-      background-color: #ff80ab;
-      color: white;
-      font-weight: bold;
-    }
+  button {
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #ff80ab;
+    color: white;
+    font-weight: bold;
+  }
 
-    img {
-      width: 300px;
-      border-radius: 15px;
-      margin-top: 20px;
-    }
-  </style>
+  img {
+    width: 300px;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+</style>
 </head>
 
 <body>
 
-  <h1>Choose your reward 😏</h1>
+<h1>Choose your reward 😏</h1>
 
-  <button onclick="showGift('A')">A</button>
-  <button onclick="showGift('B')">B</button>
-  <button onclick="showGift('C')">C</button>
+<button onclick="showGift('A')">A</button>
+<button onclick="showGift('B')">B</button>
+<button onclick="showGift('C')">C</button>
 
-  <div id="result"></div>
+<div id="result"></div>
 
-  <script>
-    function showGift(choice) {
-      const result = document.getElementById("result");
+<script>
+  function showGift(choice) {
+    const result = document.getElementById("result");
 
-      if (choice === "A") {
-        result.innerHTML = `
-          <h2>☕ Coffee Date + Princess Treatment 👑</h2>
-          <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
-        `;
-      }
-
-      if (choice === "B") {
-        result.innerHTML = `
-          <h2>💎 Jewellery Shopping 💸</h2>
-          <img src="https://media.giphy.com/media/3o6gDWzmAzrpi5DQU8/giphy.gif">
-        `;
-      }
-
-      if (choice === "C") {
-        result.innerHTML = `
-          <h2>🍝 You are COOKING. Period. 😼</h2>
-          <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
-          <img src="https://media.giphy.com/media/10u6gt11vnm812/giphy.gif">
-          <img src="https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif">
-          <p><strong>No complaints. Chef duties activated 🔥</strong></p>
-        `;
-      }
+    if (choice === "A") {
+      result.innerHTML = `
+        <h2>☕ Coffee date + princess treatment 👑</h2>
+        <img src="https://media.tenor.com/xwYtG3Y5V4AAAAAC/princess-treatment.gif">
+      `;
     }
-  </script>
+
+    if (choice === "B") {
+      result.innerHTML = `
+        <h2>💎 Jewellery shopping + money rain 💸👑</h2>
+        <img src="https://media.tenor.com/FJdKxkH7d5kAAAAC/money-rain.gif">
+      `;
+    }
+
+    if (choice === "C") {
+      result.innerHTML = `
+        <h2>🍽 You are cooking. A LOT. 😼</h2>
+        <img src="https://media.tenor.com/JQxR5yQ9K7cAAAAC/cat-eating.gif">
+        <img src="https://media.tenor.com/5V5JX4k3xq0AAAAC/food-hog.gif">
+        <p><strong>No complaints. Chef duties activated 🔥</strong></p>
+      `;
+    }
+  }
+</script>
 
 </body>
 </html>
