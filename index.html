@@ -61,19 +61,22 @@
     <button class="no" id="noBtn">No 🙄</button>
   </div>
 
+  <!-- WRONG ANSWER -->
   <div id="wrongAnswer" class="hidden">
-    <h2>❌ Wrong answer. Try again 😌</h2>
-    <img src="https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif">
+    <h2>❌ Wrong answer. Try again 😼</h2>
+    <img src="https://media.tenor.com/U7k8nKp7Z5sAAAAC/orange-cat-slap.gif">
   </div>
 
+  <!-- RIGHT ANSWER -->
   <div id="rightAnswer" class="hidden">
-    <h2>😻 You made the RIGHT choice 💕</h2>
-    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+    <h2>😻 Congratulations! You made the right choice 💕</h2>
+    <img src="https://media.tenor.com/2v2bJzQmFZ8AAAAC/cat-kiss.gif">
   </div>
 
+  <!-- NEXT STEP -->
   <div id="nextStep" class="hidden">
-    <h2>🎁 You have won a special gift!</h2>
-    <a href="question2.html">
+    <h2>🎁 You have won a special gift for choosing the right answer!</h2>
+    <a href="questions.html">
       <button class="yes">Click here for your gift 🎉</button>
     </a>
   </div>
@@ -84,7 +87,7 @@
     let hoverCount = 0;
 
     noBtn.addEventListener("mouseover", () => {
-      if (hoverCount < 5) {
+      if (hoverCount < 6) {
         noBtn.style.left = Math.random() * 300 + "px";
         noBtn.style.top = Math.random() * 120 + "px";
         hoverCount++;
@@ -92,17 +95,14 @@
     });
 
     noBtn.addEventListener("click", () => {
-      document.getElementById("wrongAnswer").classList.remove("hidden");
-      setTimeout(() => {
-        document.getElementById("wrongAnswer").classList.add("hidden");
-      }, 2000);
+      if (hoverCount >= 6) {
+        document.getElementById("wrongAnswer").classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("wrongAnswer").classList.add("hidden");
+        }, 2500);
+      }
     });
 
     yesBtn.addEventListener("click", () => {
       document.getElementById("rightAnswer").classList.remove("hidden");
-      document.getElementById("nextStep").classList.remove("hidden");
-    });
-  </script>
-
-</body>
-</html>
+      document.getElementById("nextStep").classList.remo
