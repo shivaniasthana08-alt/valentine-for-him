@@ -49,68 +49,45 @@
       margin-top: 20px;
       border-radius: 15px;
     }
-
-    .option-btn {
-      background-color: #ffb3c6;
-      color: #5a0f2e;
-      font-weight: bold;
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- QUESTION 1 -->
-  <h1 id="q1">💖 Will you be my Valentine? 💖</h1>
+  <h1>💖 Will you be my Valentine? 💖</h1>
 
   <div class="container">
     <button class="yes" id="yesBtn">Yes 💘</button>
     <button class="no" id="noBtn">No 🙄</button>
   </div>
 
-  <!-- WRONG ANSWER -->
   <div id="wrongAnswer" class="hidden">
     <h2>❌ Wrong answer. Try again 😌</h2>
     <img src="https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif">
   </div>
 
-  <!-- RIGHT ANSWER -->
   <div id="rightAnswer" class="hidden">
-    <h2>😻 Congratulations! You made the right choice 💕</h2>
+    <h2>😻 You made the RIGHT choice 💕</h2>
     <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
   </div>
 
-  <!-- QUESTION 2 INTRO -->
-  <div id="giftIntro" class="hidden">
-    <h2>🎁 You have won a special gift for choosing the right answer!</h2>
-    <button class="yes" id="giftBtn">Click here for your gift 🎉</button>
+  <div id="nextStep" class="hidden">
+    <h2>🎁 You have won a special gift!</h2>
+    <a href="question2.html">
+      <button class="yes">Click here for your gift 🎉</button>
+    </a>
   </div>
-
-  <!-- QUESTION 2 -->
-  <div id="q2" class="hidden">
-    <h1>Choose your reward 😏</h1>
-
-    <button class="option-btn" onclick="showGift('A')">A</button>
-    <button class="option-btn" onclick="showGift('B')">B</button>
-    <button class="option-btn" onclick="showGift('C')">C</button>
-  </div>
-
-  <!-- GIFT RESULT -->
-  <div id="giftResult"></div>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-
-    let noHoverCount = 0;
+    let hoverCount = 0;
 
     noBtn.addEventListener("mouseover", () => {
-      if (noHoverCount < 5) {
-        const x = Math.random() * 300;
-        const y = Math.random() * 120;
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-        noHoverCount++;
+      if (hoverCount < 5) {
+        noBtn.style.left = Math.random() * 300 + "px";
+        noBtn.style.top = Math.random() * 120 + "px";
+        hoverCount++;
       }
     });
 
@@ -123,37 +100,8 @@
 
     yesBtn.addEventListener("click", () => {
       document.getElementById("rightAnswer").classList.remove("hidden");
-      document.getElementById("giftIntro").classList.remove("hidden");
+      document.getElementById("nextStep").classList.remove("hidden");
     });
-
-    document.getElementById("giftBtn").addEventListener("click", () => {
-      document.getElementById("q2").classList.remove("hidden");
-    });
-
-    function showGift(choice) {
-      const result = document.getElementById("giftResult");
-
-      if (choice === "A") {
-        result.innerHTML = `
-          <h2>☕ You get to take me for coffee</h2>
-          <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
-        `;
-      }
-
-      if (choice === "B") {
-        result.innerHTML = `
-          <h2>💎 You get to take me jewellery shopping</h2>
-          <img src="https://media.giphy.com/media/3o6gDWzmAzrpi5DQU8/giphy.gif">
-        `;
-      }
-
-      if (choice === "C") {
-        result.innerHTML = `
-          <h2>🍽 You get to make me dinner of my choice</h2>
-          <img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif">
-        `;
-      }
-    }
   </script>
 
 </body>
