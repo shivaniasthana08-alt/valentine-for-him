@@ -2,36 +2,92 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine Challenge 💘</title>
+<title>Valentine</title>
+
+<!-- Royal font -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
   body {
-    background-color: #ffe6f0;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 50px;
+    margin: 0;
+    height: 100vh;
+    background: #8b0000;
+    color: #ffffff;
+    font-family: "Playfair Display", serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
 
-  h1, h2 {
-    color: #d63384;
+  /* Falling hearts */
+  .hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .heart {
+    position: absolute;
+    top: -20px;
+    color: rgba(255, 210, 210, 0.35);
+    font-size: 16px;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh);
+    }
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 60px 80px;
+    border-radius: 22px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+  }
+
+  h1 {
+    font-size: 44px;
+    margin-bottom: 45px;
+    letter-spacing: 1px;
+  }
+
+  .container {
+    position: relative;
+    height: 90px;
   }
 
   button {
-    padding: 15px 25px;
+    padding: 14px 38px;
     font-size: 16px;
+    border-radius: 40px;
     border: none;
-    border-radius: 10px;
     cursor: pointer;
-    margin: 10px;
+    font-family: inherit;
+    transition: all 0.25s ease;
   }
 
   .yes {
-    background-color: #ff4d88;
-    color: white;
+    background: #f4e1c1;
+    color: #3b0000;
+    margin-right: 20px;
+  }
+
+  .yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
   }
 
   .no {
-    background-color: #ccc;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.6);
     position: absolute;
   }
 
@@ -39,50 +95,87 @@
     display: none;
   }
 
-  .container {
-    position: relative;
-    height: 200px;
+  .message {
+    margin-top: 30px;
+  }
+
+  .message h2 {
+    font-size: 22px;
+    margin-bottom: 18px;
   }
 
   img {
-    width: 280px;
-    margin-top: 20px;
-    border-radius: 15px;
+    width: 260px;
+    border-radius: 14px;
+  }
+
+  .next-step {
+    margin-top: 35px;
+  }
+
+  .gift-btn {
+    margin-top: 18px;
+    background: #f4e1c1;
+    color: #3b0000;
   }
 </style>
 </head>
 
 <body>
 
-<h1>💖 Will you be my Valentine? 💖</h1>
+<!-- Falling hearts -->
+<div class="hearts" id="hearts"></div>
 
-<div class="container">
-  <button class="yes" id="yesBtn">Yes 💘</button>
-  <button class="no" id="noBtn">No 🙄</button>
-</div>
+<div class="card">
 
-<div id="wrongAnswer" class="hidden">
-  <h2>❌ Wrong answer. Try again 😼</h2>
-  <img src="Cat Slap GIF.gif">
-</div>
+  <h1>Will you be my Valentine?</h1>
 
-<div id="rightAnswer" class="hidden">
-  <h2>😻 Congratulations! You made the right choice 💕</h2>
-  <img src="Office.gif">
-</div>
+  <div class="container">
+    <button class="yes" id="yesBtn">Yes</button>
+    <button class="no" id="noBtn">No</button>
+  </div>
 
-<div id="nextStep" class="hidden">
-  <h2>🎁 You have won a special gift!</h2>
-  <button class="yes" id="giftBtn">Click here for your gift 🎉</button>
+  <!-- NO result -->
+  <div id="wrongAnswer" class="message hidden">
+    <h2>Oops! You chose poorly. Worry not! You have one last chance to get dinner.</h2>
+    <img src="chose poorly.gif">
+  </div>
+
+  <!-- YES result -->
+  <div id="rightAnswer" class="message hidden">
+    <h2>Congratulations! You finally chose wisely.</h2>
+    <img src="kitten kissing the camera.gif">
+  </div>
+
+  <!-- Next step -->
+  <div id="nextStep" class="next-step hidden">
+    <h2>Now it’s time to exchange gifts</h2>
+    <button class="gift-btn" id="giftBtn">🎁 Click here</button>
+  </div>
+
 </div>
 
 <script>
+  /* Falling hearts creation */
+  const heartsContainer = document.getElementById("hearts");
+
+  for (let i = 0; i < 35; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "♥";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+    heart.style.fontSize = 12 + Math.random() * 14 + "px";
+    heartsContainer.appendChild(heart);
+  }
+
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const giftBtn = document.getElementById("giftBtn");
 
   let hoverCount = 0;
 
+  /* NO button behavior – unchanged */
   noBtn.addEventListener("mouseover", () => {
     if (hoverCount < 3) {
       noBtn.style.left = Math.random() * 300 + "px";
@@ -100,9 +193,13 @@
     }
   });
 
+  /* YES button – same logic, refined output */
   yesBtn.addEventListener("click", () => {
     document.getElementById("rightAnswer").classList.remove("hidden");
-    document.getElementById("nextStep").classList.remove("hidden");
+
+    setTimeout(() => {
+      document.getElementById("nextStep").classList.remove("hidden");
+    }, 3000);
   });
 
   giftBtn.addEventListener("click", () => {
@@ -112,3 +209,4 @@
 
 </body>
 </html>
+
