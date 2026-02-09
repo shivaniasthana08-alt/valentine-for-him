@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <title>Valentine</title>
 
-<!-- Royal font -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<!-- Royal, sensual but readable font -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
   body {
@@ -13,7 +13,7 @@
     height: 100vh;
     background: #8b0000;
     color: #ffffff;
-    font-family: "Playfair Display", serif;
+    font-family: "Cormorant Garamond", serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,7 +31,7 @@
   .heart {
     position: absolute;
     top: -20px;
-    color: rgba(255, 210, 210, 0.35);
+    color: rgba(255, 215, 215, 0.35);
     font-size: 16px;
     animation: fall linear infinite;
   }
@@ -45,17 +45,17 @@
   .card {
     position: relative;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 60px 80px;
-    border-radius: 22px;
+    background: rgba(0, 0, 0, 0.28);
+    padding: 65px 85px;
+    border-radius: 24px;
     text-align: center;
     backdrop-filter: blur(6px);
   }
 
   h1 {
-    font-size: 44px;
+    font-size: 46px;
     margin-bottom: 45px;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
   }
 
   .container {
@@ -64,8 +64,8 @@
   }
 
   button {
-    padding: 14px 38px;
-    font-size: 16px;
+    padding: 14px 40px;
+    font-size: 17px;
     border-radius: 40px;
     border: none;
     cursor: pointer;
@@ -76,12 +76,12 @@
   .yes {
     background: #f4e1c1;
     color: #3b0000;
-    margin-right: 20px;
+    margin-right: 22px;
   }
 
   .yes:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
   }
 
   .no {
@@ -96,27 +96,43 @@
   }
 
   .message {
-    margin-top: 30px;
+    margin-top: 32px;
   }
 
   .message h2 {
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 18px;
+    line-height: 1.4;
   }
 
   img {
     width: 260px;
-    border-radius: 14px;
+    border-radius: 16px;
   }
 
+  /* Gift section */
   .next-step {
-    margin-top: 35px;
+    margin-top: 40px;
   }
 
   .gift-btn {
-    margin-top: 18px;
-    background: #f4e1c1;
-    color: #3b0000;
+    margin-top: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    animation: heartbeat 1.6s ease-in-out infinite;
+  }
+
+  .gift-btn img {
+    width: 90px;
+  }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.08); }
+    40% { transform: scale(1); }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); }
   }
 </style>
 </head>
@@ -137,20 +153,25 @@
 
   <!-- NO result -->
   <div id="wrongAnswer" class="message hidden">
-    <h2>Oops! You chose poorly. Worry not! You have one last chance to get dinner.</h2>
-    <img src="chose poorly.gif">
+    <h2>
+      Oops! You chose poorly.<br>
+      Worry not! You have one last chance to get dinner.
+    </h2>
+    <img src="chose-poorly.gif">
   </div>
 
   <!-- YES result -->
   <div id="rightAnswer" class="message hidden">
     <h2>Congratulations! You finally chose wisely.</h2>
-    <img src="kitten kissing the camera.gif">
+    <img src="Cat kissing.gif">
   </div>
 
   <!-- Next step -->
   <div id="nextStep" class="next-step hidden">
     <h2>Now it’s time to exchange gifts</h2>
-    <button class="gift-btn" id="giftBtn">🎁 Click here</button>
+    <button class="gift-btn" id="giftBtn">
+      <img src="gift-box.gif" alt="Gift">
+    </button>
   </div>
 
 </div>
@@ -159,7 +180,7 @@
   /* Falling hearts creation */
   const heartsContainer = document.getElementById("hearts");
 
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < 36; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "♥";
@@ -189,11 +210,11 @@
       document.getElementById("wrongAnswer").classList.remove("hidden");
       setTimeout(() => {
         document.getElementById("wrongAnswer").classList.add("hidden");
-      }, 2500);
+      }, 7000);   // ⬅️ increased to 7 seconds
     }
   });
 
-  /* YES button – same logic, refined output */
+  /* YES button */
   yesBtn.addEventListener("click", () => {
     document.getElementById("rightAnswer").classList.remove("hidden");
 
