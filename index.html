@@ -54,9 +54,7 @@
     margin-bottom: 45px;
   }
 
-  /* Buttons row */
   .buttons {
-    position: relative;
     display: flex;
     justify-content: center;
     gap: 28px;
@@ -71,7 +69,6 @@
     cursor: pointer;
     border: none;
     font-family: inherit;
-    transition: transform 0.15s ease;
   }
 
   .yes {
@@ -120,7 +117,7 @@
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card" id="card">
+<div class="card">
 
   <h1>Will you be my Valentine?</h1>
 
@@ -129,6 +126,7 @@
     <button class="no" id="noBtn">No</button>
   </div>
 
+  <!-- NO content -->
   <div id="wrongAnswer" class="message hidden">
     <h2>
       I see. Would you like to speak to a manager?<br>
@@ -137,6 +135,7 @@
     <img src="poorly.gif">
   </div>
 
+  <!-- YES content -->
   <div id="rightAnswer" class="message hidden">
     <h2>Congratulations! You finally chose wisely.</h2>
     <img src="Cat kissing.gif">
@@ -163,12 +162,16 @@
 
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
-  const card = document.getElementById("card");
+
+  const wrong = document.getElementById("wrongAnswer");
+  const right = document.getElementById("rightAnswer");
+  const next = document.getElementById("nextStep");
 
   let hoverCount = 0;
   let noClickable = false;
+  let noTimeout = null;
 
-  /* --- NO hover escape (RESTORED) --- */
+  /* --- NO hover escape --- */
   noBtn.addEventListener("mouseenter", () => {
     if (noClickable || hoverCount >= 3) return;
 
@@ -190,25 +193,35 @@
   noBtn.addEventListener("click", () => {
     if (!noClickable) return;
 
-    const wrong = document.getElementById("wrongAnswer");
+    // reset YES content if visible
+    right.classList.add("hidden");
+    next.classList.add("hidden");
+
+    // show NO content
     wrong.classList.remove("hidden");
 
-    card.onmouseleave = () => {
+    // clear old timeout if any
+    if (noTimeout) clearTimeout(noTimeout);
+
+    // hide after 7 seconds
+    noTimeout = setTimeout(() => {
       wrong.classList.add("hidden");
-      noBtn.remove(); // remove No permanently
-    };
+    }, 7000);
   });
 
   /* --- YES click --- */
   yesBtn.addEventListener("click", () => {
-    yesBtn.remove();
+    // hide NO content immediately
+    wrong.classList.add("hidden");
+    if (noTimeout) clearTimeout(noTimeout);
 
-    const right = document.getElementById("rightAnswer");
+    // show YES content
     right.classList.remove("hidden");
 
-    card.onmouseleave = () => {
-      document.getElementById("nextStep").classList.remove("hidden");
-    };
+    // show gift after short delay (optional polish)
+    setTimeout(() => {
+      next.classList.remove("hidden");
+    }, 600);
   });
 
   document.getElementById("giftBtn").addEventListener("click", () => {
