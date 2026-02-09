@@ -19,6 +19,7 @@
     overflow: hidden;
   }
 
+  /* Falling hearts */
   .hearts {
     position: fixed;
     inset: 0;
@@ -29,7 +30,7 @@
   .heart {
     position: absolute;
     top: -20px;
-    color: rgba(255, 215, 215, 0.35);
+    color: rgba(255,215,215,0.35);
     font-size: 16px;
     animation: fall linear infinite;
   }
@@ -39,6 +40,7 @@
   }
 
   .card {
+    position: relative;
     z-index: 2;
     background: rgba(0,0,0,0.28);
     padding: 70px 90px;
@@ -52,10 +54,13 @@
     margin-bottom: 45px;
   }
 
+  /* Buttons row */
   .buttons {
+    position: relative;
     display: flex;
     justify-content: center;
     gap: 28px;
+    margin-bottom: 20px;
   }
 
   button {
@@ -66,15 +71,36 @@
     cursor: pointer;
     border: none;
     font-family: inherit;
+    transition: transform 0.15s ease;
   }
 
-  .yes { background: #f4e1c1; color: #3b0000; }
-  .no  { background: #2b2b2b; color: #ffffff; }
+  .yes {
+    background: #f4e1c1;
+    color: #3b0000;
+  }
+
+  .no {
+    background: #2b2b2b;
+    color: #ffffff;
+    position: relative;
+  }
 
   .hidden { display: none; }
 
-  .message { margin-top: 30px; }
-  img { width: 260px; border-radius: 16px; }
+  .message {
+    margin-top: 30px;
+  }
+
+  .message h2 {
+    font-size: 22px;
+    line-height: 1.45;
+    margin-bottom: 18px;
+  }
+
+  img {
+    width: 260px;
+    border-radius: 16px;
+  }
 
   .gift-btn {
     font-size: 64px;
@@ -94,7 +120,8 @@
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card">
+<div class="card" id="card">
+
   <h1>Will you be my Valentine?</h1>
 
   <div class="buttons">
@@ -103,7 +130,10 @@
   </div>
 
   <div id="wrongAnswer" class="message hidden">
-    <h2>I see. Would you like to speak to a manager?<br>Oh wait, that’s also me.</h2>
+    <h2>
+      I see. Would you like to speak to a manager?<br>
+      Oh wait, that’s also me — so come on, let’s try again!
+    </h2>
     <img src="poorly.gif">
   </div>
 
@@ -116,6 +146,7 @@
     <h2>Now it’s time to exchange gifts</h2>
     <button class="gift-btn" id="giftBtn">🎁</button>
   </div>
+
 </div>
 
 <script>
@@ -124,48 +155,65 @@
   for (let i = 0; i < 30; i++) {
     const h = document.createElement("div");
     h.className = "heart";
-    h.innerHTML = "♥";
+    h.textContent = "♥";
     h.style.left = Math.random() * 100 + "vw";
     h.style.animationDuration = 6 + Math.random() * 6 + "s";
     hearts.appendChild(h);
   }
 
-  let startX = null, startY = null, activeHandler = null;
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const card = document.getElementById("card");
 
-  function waitForCursorMove(callback) {
-    function onMove(e) {
-      if (startX === null) {
-        startX = e.clientX;
-        startY = e.clientY;
-        return;
-      }
-      const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
-      if (dist > 25) {
-        document.removeEventListener("mousemove", onMove);
-        startX = startY = null;
-        callback();
-      }
+  let hoverCount = 0;
+  let noClickable = false;
+
+  /* --- NO hover escape (RESTORED) --- */
+  noBtn.addEventListener("mouseenter", () => {
+    if (noClickable || hoverCount >= 3) return;
+
+    const x = Math.random() * 120 - 60;
+    const y = Math.random() * 60 - 30;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    hoverCount++;
+
+    if (hoverCount === 3) {
+      setTimeout(() => {
+        noBtn.style.transform = "translate(0,0)";
+        noClickable = true;
+      }, 200);
     }
-    document.addEventListener("mousemove", onMove);
-  }
+  });
 
-  document.getElementById("noBtn").onclick = () => {
-    document.getElementById("wrongAnswer").classList.remove("hidden");
-    waitForCursorMove(() => {
-      document.getElementById("wrongAnswer").classList.add("hidden");
-    });
-  };
+  /* --- NO click --- */
+  noBtn.addEventListener("click", () => {
+    if (!noClickable) return;
 
-  document.getElementById("yesBtn").onclick = () => {
-    document.getElementById("rightAnswer").classList.remove("hidden");
-    waitForCursorMove(() => {
+    const wrong = document.getElementById("wrongAnswer");
+    wrong.classList.remove("hidden");
+
+    card.onmouseleave = () => {
+      wrong.classList.add("hidden");
+      noBtn.remove(); // remove No permanently
+    };
+  });
+
+  /* --- YES click --- */
+  yesBtn.addEventListener("click", () => {
+    yesBtn.remove();
+
+    const right = document.getElementById("rightAnswer");
+    right.classList.remove("hidden");
+
+    card.onmouseleave = () => {
       document.getElementById("nextStep").classList.remove("hidden");
-    });
-  };
+    };
+  });
 
-  document.getElementById("giftBtn").onclick = () => {
+  document.getElementById("giftBtn").addEventListener("click", () => {
     window.location.href = "question2.html";
-  };
+  });
 </script>
 
 </body>
