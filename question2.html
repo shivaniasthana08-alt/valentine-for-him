@@ -2,75 +2,115 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Your Reward 🎁</title>
+<title>Service Packages</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
   body {
-    background-color: #fff0f5;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    background: #8b0000;
+    color: #ffffff;
+    font-family: "Cormorant Garamond", serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .card {
+    background: rgba(0,0,0,0.28);
+    padding: 70px 90px;
+    border-radius: 26px;
     text-align: center;
-    padding: 50px;
+    backdrop-filter: blur(6px);
+    max-width: 900px;
   }
 
-  h1, h2 {
-    color: #c2185b;
+  h1 {
+    font-size: 36px;
+    line-height: 1.4;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
   }
 
-  button {
-    padding: 15px 25px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    margin: 10px;
+  /* Packages grid */
+  .packages {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  .package {
+    padding: 36px 28px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.3);
     cursor: pointer;
-    background-color: #ff80ab;
-    color: white;
-    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 0.8px;
+    transition: all 0.18s ease;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.45);
   }
 
-  img {
-    width: 300px;
-    border-radius: 15px;
-    margin-top: 20px;
+  /* Keyboard-style animation */
+  .package:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.14);
+  }
+
+  .package:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.4);
+  }
+
+  .result {
+    margin-top: 45px;
+    font-size: 22px;
+    line-height: 1.5;
   }
 </style>
 </head>
 
 <body>
 
-<h1>Choose your reward 😏</h1>
+<div class="card">
 
-<button onclick="showGift('A')">A</button>
-<button onclick="showGift('B')">B</button>
-<button onclick="showGift('C')">C</button>
+  <h1>
+    Ok coder — please select one of the following<br>
+    <strong>Service Packages</strong> to commit to the database.
+  </h1>
 
-<div id="result"></div>
+  <div class="packages">
+    <div class="package" onclick="selectPackage('Home Court Advantage')">
+      Home Court Advantage
+    </div>
+
+    <div class="package" onclick="selectPackage('Spin & Sculpt')">
+      Spin &amp; Sculpt
+    </div>
+
+    <div class="package" onclick="selectPackage('Unlimited Throughput')">
+      Unlimited Throughput
+    </div>
+
+    <div class="package" onclick="selectPackage('Off-Grid Query')">
+      Off-Grid Query
+    </div>
+  </div>
+
+  <div id="result" class="result"></div>
+
+</div>
 
 <script>
-  function showGift(choice) {
+  function selectPackage(choice) {
     const result = document.getElementById("result");
-
-    if (choice === "A") {
-      result.innerHTML = `
-        <h2>☕ Coffee date + princess treatment 👑</h2>
-        <img src="Option A GIF.gif">
-      `;
-    }
-
-    if (choice === "B") {
-      result.innerHTML = `
-        <h2>💎 Jewellery shopping + money rain 💸👑</h2>
-        <img src="Option B.gif">
-      `;
-    }
-
-    if (choice === "C") {
-      result.innerHTML = `
-        <h2>🍽 You are cooking. A LOT. 😼</h2>
-        <img src="Option C GIF.gif">
-        <p><strong>No complaints. Chef duties activated 🔥</strong></p>
-      `;
-    }
+    result.innerHTML = `
+      <strong>${choice}</strong> has been successfully committed.<br>
+      Transaction complete.
+    `;
   }
 </script>
 
