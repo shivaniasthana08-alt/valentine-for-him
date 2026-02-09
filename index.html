@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Valentine</title>
 
-<!-- Royal, sensual but readable font -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -37,15 +36,13 @@
   }
 
   @keyframes fall {
-    to {
-      transform: translateY(110vh);
-    }
+    to { transform: translateY(110vh); }
   }
 
   .card {
     position: relative;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.28);
+    background: rgba(0,0,0,0.28);
     padding: 65px 85px;
     border-radius: 24px;
     text-align: center;
@@ -79,11 +76,6 @@
     margin-right: 22px;
   }
 
-  .yes:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-  }
-
   .no {
     background: transparent;
     color: #ffffff;
@@ -91,18 +83,16 @@
     position: absolute;
   }
 
-  .hidden {
-    display: none;
-  }
+  .hidden { display: none; }
 
   .message {
     margin-top: 32px;
   }
 
   .message h2 {
-    font-size: 24px;
+    font-size: 23px;
+    line-height: 1.45;
     margin-bottom: 18px;
-    line-height: 1.4;
   }
 
   img {
@@ -110,28 +100,25 @@
     border-radius: 16px;
   }
 
-  /* Gift section */
+  /* Gift animation */
   .next-step {
     margin-top: 40px;
   }
 
   .gift-btn {
-    margin-top: 24px;
+    margin-top: 22px;
+    font-size: 64px;
     background: transparent;
     border: none;
     cursor: pointer;
-    animation: heartbeat 1.6s ease-in-out infinite;
+    animation: giftPulse 1.6s ease-in-out infinite;
   }
 
-  .gift-btn img {
-    width: 90px;
-  }
-
-  @keyframes heartbeat {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.08); }
-    40% { transform: scale(1); }
-    60% { transform: scale(1.1); }
+  @keyframes giftPulse {
+    0%   { transform: scale(1) rotate(0deg); }
+    25%  { transform: scale(1.1) rotate(-4deg); }
+    50%  { transform: scale(1); }
+    75%  { transform: scale(1.1) rotate(4deg); }
     100% { transform: scale(1); }
   }
 </style>
@@ -139,7 +126,6 @@
 
 <body>
 
-<!-- Falling hearts -->
 <div class="hearts" id="hearts"></div>
 
 <div class="card">
@@ -151,35 +137,32 @@
     <button class="no" id="noBtn">No</button>
   </div>
 
-  <!-- NO result -->
+  <!-- NO message (shown once only) -->
   <div id="wrongAnswer" class="message hidden">
     <h2>
-      Oops! You chose poorly.<br>
-      Worry not! You have one last chance to get dinner.
+      I see. Would you like to speak to a manager?<br>
+      Oh wait, that’s also me — so come on, let’s try again!
     </h2>
     <img src="poorly.gif">
   </div>
 
-  <!-- YES result -->
+  <!-- YES message -->
   <div id="rightAnswer" class="message hidden">
     <h2>Congratulations! You finally chose wisely.</h2>
     <img src="Cat kissing.gif">
   </div>
 
-  <!-- Next step -->
+  <!-- Gift -->
   <div id="nextStep" class="next-step hidden">
     <h2>Now it’s time to exchange gifts</h2>
-    <button class="gift-btn" id="giftBtn">
-      <img src="gift-box.gif" alt="Gift">
-    </button>
+    <button class="gift-btn" id="giftBtn">🎁</button>
   </div>
 
 </div>
 
 <script>
-  /* Falling hearts creation */
+  /* Falling hearts */
   const heartsContainer = document.getElementById("hearts");
-
   for (let i = 0; i < 36; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -193,31 +176,44 @@
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const giftBtn = document.getElementById("giftBtn");
+  const wrongAnswer = document.getElementById("wrongAnswer");
 
   let hoverCount = 0;
+  let noFinalized = false;
 
-  /* NO button behavior – unchanged */
+  const originalLeft = noBtn.offsetLeft;
+  const originalTop = noBtn.offsetTop;
+
   noBtn.addEventListener("mouseover", () => {
+    if (noFinalized) return;
+
     if (hoverCount < 3) {
       noBtn.style.left = Math.random() * 300 + "px";
       noBtn.style.top = Math.random() * 120 + "px";
       hoverCount++;
+
+      if (hoverCount === 3) {
+        setTimeout(() => {
+          noBtn.style.left = originalLeft + "px";
+          noBtn.style.top = originalTop + "px";
+        }, 300);
+      }
     }
   });
 
   noBtn.addEventListener("click", () => {
-    if (hoverCount >= 3) {
-      document.getElementById("wrongAnswer").classList.remove("hidden");
-      setTimeout(() => {
-        document.getElementById("wrongAnswer").classList.add("hidden");
-      }, 7000);   // ⬅️ increased to 7 seconds
-    }
+    if (noFinalized || hoverCount < 3) return;
+
+    wrongAnswer.classList.remove("hidden");
+    noFinalized = true;
+
+    setTimeout(() => {
+      wrongAnswer.classList.add("hidden");
+    }, 7000);
   });
 
-  /* YES button */
   yesBtn.addEventListener("click", () => {
     document.getElementById("rightAnswer").classList.remove("hidden");
-
     setTimeout(() => {
       document.getElementById("nextStep").classList.remove("hidden");
     }, 3000);
@@ -230,4 +226,3 @@
 
 </body>
 </html>
-
