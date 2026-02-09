@@ -19,6 +19,7 @@
     overflow: hidden;
   }
 
+  /* Falling hearts */
   .hearts {
     position: fixed;
     inset: 0;
@@ -68,23 +69,13 @@
     border: 1px solid rgba(255,255,255,0.3);
     cursor: pointer;
     font-size: 24px;
-    transition: all 0.18s ease;
+    transition: transform 0.15s ease;
     box-shadow: 0 6px 0 rgba(0,0,0,0.45);
   }
 
-  .package:hover {
-    transform: translateY(-3px);
-    background: rgba(255,255,255,0.14);
-  }
+  .package:hover { transform: translateY(-3px); }
 
-  .package:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 rgba(0,0,0,0.4);
-  }
-
-  .hidden {
-    display: none;
-  }
+  .hidden { display: none; }
 
   .result {
     margin-top: 40px;
@@ -121,9 +112,8 @@
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card">
+<div class="card" id="card">
 
-  <!-- ✅ CHANGE 1: add id -->
   <h1 id="heading">
     Ok coder — please select one of the following<br>
     <strong>Service Packages</strong> to commit to the database.
@@ -153,59 +143,59 @@
     heartsContainer.appendChild(heart);
   }
 
+  const clickedPackages = new Set();
+
   const packages = document.querySelectorAll(".package");
   const result = document.getElementById("result");
-  const heading = document.getElementById("heading"); // ✅ CHANGE 2
+  const heading = document.getElementById("heading");
+  const card = document.getElementById("card");
 
   packages.forEach(pkg => {
-    pkg.addEventListener("click", () => handleSelection(pkg.dataset.type));
+    pkg.addEventListener("click", () => {
+      const type = pkg.dataset.type;
+      clickedPackages.add(type);
+
+      packages.forEach(p => p.classList.add("hidden"));
+      heading.classList.add("hidden");
+
+      if (type === "home") {
+        result.innerHTML = `
+          No external API calls needed. You manage the full stack from appetizers to the final “Sweet” commit.
+          <br><img src="chef.gif">
+        `;
+      }
+
+      if (type === "spin") {
+        result.innerHTML = `
+          <div class="spin-links">
+            <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
+            <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
+          </div>
+        `;
+      }
+
+      if (type === "throughput") {
+        result.innerHTML = `<img src="shopping.gif">`;
+      }
+
+      if (type === "offgrid") {
+        result.innerHTML = `
+          We’re going offline and you are paying for the strawberry matcha.
+          <br><img src="trip.gif">
+        `;
+      }
+
+      card.onmouseleave = () => {
+        result.innerHTML = "";
+        packages.forEach(p => p.classList.remove("hidden"));
+        heading.classList.remove("hidden");
+
+        if (clickedPackages.size === 4) {
+          window.location.href = "final.html";
+        }
+      };
+    });
   });
-
-  function hideAllPackages() {
-    packages.forEach(p => p.classList.add("hidden"));
-  }
-
-  function showAllPackages() {
-    packages.forEach(p => p.classList.remove("hidden"));
-    result.innerHTML = "";
-    heading.classList.remove("hidden"); // ✅ CHANGE 4
-  }
-
-  function handleSelection(type) {
-    hideAllPackages();
-    heading.classList.add("hidden"); // ✅ CHANGE 3
-
-    if (type === "home") {
-      result.innerHTML = `
-        No external API calls needed. You manage the full stack from appetizers to the final “Sweet” commit.
-        <br>
-        <img src="chef.gif">
-      `;
-    }
-
-    if (type === "spin") {
-      result.innerHTML = `
-        <div class="spin-links">
-          <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
-          <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
-        </div>
-      `;
-    }
-
-    if (type === "throughput") {
-      result.innerHTML = `<img src="shopping.gif">`;
-    }
-
-    if (type === "offgrid") {
-      result.innerHTML = `
-        We’re going offline and you are paying for the strawberry matcha.
-        <br>
-        <img src="trip.gif">
-      `;
-    }
-
-    setTimeout(showAllPackages, 7000);
-  }
 </script>
 
 </body>
