@@ -19,7 +19,6 @@
     overflow: hidden;
   }
 
-  /* Falling hearts */
   .hearts {
     position: fixed;
     inset: 0;
@@ -53,66 +52,29 @@
     margin-bottom: 45px;
   }
 
-  /* ✅ PERFECTLY CENTERED BUTTON ROW */
   .buttons {
     display: flex;
     justify-content: center;
     gap: 28px;
-    margin-bottom: 20px;
   }
 
   button {
-    width: 150px;              /* fixed width prevents stretch */
+    width: 150px;
     padding: 14px 0;
     font-size: 18px;
-    font-family: inherit;
     border-radius: 16px;
     cursor: pointer;
     border: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    font-family: inherit;
   }
 
-  .yes {
-    background: #f4e1c1;
-    color: #3b0000;
-    box-shadow: 0 6px 0 #cdb48d;
-  }
-
-  .no {
-    background: #2b2b2b;
-    color: #ffffff;
-    box-shadow: 0 6px 0 #111;
-  }
-
-  button:hover {
-    transform: translateY(-2px);
-  }
-
-  button:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 rgba(0,0,0,0.4);
-  }
+  .yes { background: #f4e1c1; color: #3b0000; }
+  .no  { background: #2b2b2b; color: #ffffff; }
 
   .hidden { display: none; }
 
-  .message {
-    margin-top: 30px;
-  }
-
-  .message h2 {
-    font-size: 22px;
-    line-height: 1.45;
-    margin-bottom: 18px;
-  }
-
-  img {
-    width: 260px;
-    border-radius: 16px;
-  }
-
-  .next-step {
-    margin-top: 40px;
-  }
+  .message { margin-top: 30px; }
+  img { width: 260px; border-radius: 16px; }
 
   .gift-btn {
     font-size: 64px;
@@ -123,9 +85,7 @@
   }
 
   @keyframes pulse {
-    0% { transform: scale(1); }
     50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
   }
 </style>
 </head>
@@ -137,17 +97,13 @@
 <div class="card">
   <h1>Will you be my Valentine?</h1>
 
-  <!-- ✅ Buttons always stay next to each other -->
   <div class="buttons">
     <button class="yes" id="yesBtn">Yes</button>
     <button class="no" id="noBtn">No</button>
   </div>
 
   <div id="wrongAnswer" class="message hidden">
-    <h2>
-      I see. Would you like to speak to a manager?<br>
-      Oh wait, that’s also me — so come on, let’s try again!
-    </h2>
+    <h2>I see. Would you like to speak to a manager?<br>Oh wait, that’s also me.</h2>
     <img src="poorly.gif">
   </div>
 
@@ -156,7 +112,7 @@
     <img src="Cat kissing.gif">
   </div>
 
-  <div id="nextStep" class="next-step hidden">
+  <div id="nextStep" class="message hidden">
     <h2>Now it’s time to exchange gifts</h2>
     <button class="gift-btn" id="giftBtn">🎁</button>
   </div>
@@ -174,51 +130,42 @@
     hearts.appendChild(h);
   }
 
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
+  let startX = null, startY = null, activeHandler = null;
 
-  let hoverCount = 0;
-  let noLocked = false;
-
-  noBtn.addEventListener("mouseover", () => {
-    if (noLocked || hoverCount >= 3) return;
-
-    noBtn.style.transform =
-      `translate(${Math.random()*120 - 60}px, ${Math.random()*50 - 25}px)`;
-
-    hoverCount++;
-
-    if (hoverCount === 3) {
-      setTimeout(() => {
-        noBtn.style.transform = "translate(0,0)";
-      }, 300);
+  function waitForCursorMove(callback) {
+    function onMove(e) {
+      if (startX === null) {
+        startX = e.clientX;
+        startY = e.clientY;
+        return;
+      }
+      const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
+      if (dist > 25) {
+        document.removeEventListener("mousemove", onMove);
+        startX = startY = null;
+        callback();
+      }
     }
-  });
+    document.addEventListener("mousemove", onMove);
+  }
 
-  noBtn.addEventListener("click", () => {
-    if (noLocked || hoverCount < 3) return;
-
+  document.getElementById("noBtn").onclick = () => {
     document.getElementById("wrongAnswer").classList.remove("hidden");
-    noLocked = true;
-    noBtn.remove();
-
-    setTimeout(() => {
+    waitForCursorMove(() => {
       document.getElementById("wrongAnswer").classList.add("hidden");
-    }, 7000);
-  });
+    });
+  };
 
-  yesBtn.addEventListener("click", () => {
-    yesBtn.remove();
+  document.getElementById("yesBtn").onclick = () => {
     document.getElementById("rightAnswer").classList.remove("hidden");
-
-    setTimeout(() => {
+    waitForCursorMove(() => {
       document.getElementById("nextStep").classList.remove("hidden");
-    }, 3000);
-  });
+    });
+  };
 
-  document.getElementById("giftBtn").addEventListener("click", () => {
+  document.getElementById("giftBtn").onclick = () => {
     window.location.href = "question2.html";
-  });
+  };
 </script>
 
 </body>
