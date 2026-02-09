@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Valentine</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
   body {
@@ -40,33 +40,29 @@
   }
 
   .card {
-    position: relative;
     z-index: 2;
     background: rgba(0,0,0,0.28);
     padding: 70px 90px;
     border-radius: 26px;
     text-align: center;
-    backdrop-filter: blur(6px);
     width: 700px;
   }
 
   h1 {
     font-size: 46px;
-    margin-bottom: 40px;
-    letter-spacing: 1.2px;
+    margin-bottom: 45px;
   }
 
-  /* BUTTON ROW — FIXED & SIMPLE */
+  /* ✅ PERFECTLY CENTERED BUTTON ROW */
   .buttons {
-    position: relative;
     display: flex;
     justify-content: center;
-    gap: 30px;
-    height: 80px;
+    gap: 28px;
+    margin-bottom: 20px;
   }
 
   button {
-    width: 140px;               /* 🔒 fixed width prevents stretching */
+    width: 150px;              /* fixed width prevents stretch */
     padding: 14px 0;
     font-size: 18px;
     font-family: inherit;
@@ -76,14 +72,12 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
-  /* Keyboard-like Yes */
   .yes {
     background: #f4e1c1;
     color: #3b0000;
     box-shadow: 0 6px 0 #cdb48d;
   }
 
-  /* Keyboard-like No */
   .no {
     background: #2b2b2b;
     color: #ffffff;
@@ -102,11 +96,11 @@
   .hidden { display: none; }
 
   .message {
-    margin-top: 32px;
+    margin-top: 30px;
   }
 
   .message h2 {
-    font-size: 23px;
+    font-size: 22px;
     line-height: 1.45;
     margin-bottom: 18px;
   }
@@ -130,9 +124,7 @@
 
   @keyframes pulse {
     0% { transform: scale(1); }
-    25% { transform: scale(1.1); }
-    50% { transform: scale(1); }
-    75% { transform: scale(1.1); }
+    50% { transform: scale(1.1); }
     100% { transform: scale(1); }
   }
 </style>
@@ -143,16 +135,14 @@
 <div class="hearts" id="hearts"></div>
 
 <div class="card">
-
   <h1>Will you be my Valentine?</h1>
 
-  <!-- ✅ Correctly aligned buttons -->
+  <!-- ✅ Buttons always stay next to each other -->
   <div class="buttons">
     <button class="yes" id="yesBtn">Yes</button>
     <button class="no" id="noBtn">No</button>
   </div>
 
-  <!-- NO message -->
   <div id="wrongAnswer" class="message hidden">
     <h2>
       I see. Would you like to speak to a manager?<br>
@@ -161,22 +151,19 @@
     <img src="poorly.gif">
   </div>
 
-  <!-- YES message -->
   <div id="rightAnswer" class="message hidden">
     <h2>Congratulations! You finally chose wisely.</h2>
     <img src="Cat kissing.gif">
   </div>
 
-  <!-- Gift -->
   <div id="nextStep" class="next-step hidden">
     <h2>Now it’s time to exchange gifts</h2>
     <button class="gift-btn" id="giftBtn">🎁</button>
   </div>
-
 </div>
 
 <script>
-  /* Falling hearts */
+  /* Hearts */
   const hearts = document.getElementById("hearts");
   for (let i = 0; i < 30; i++) {
     const h = document.createElement("div");
@@ -184,7 +171,6 @@
     h.innerHTML = "♥";
     h.style.left = Math.random() * 100 + "vw";
     h.style.animationDuration = 6 + Math.random() * 6 + "s";
-    h.style.fontSize = 12 + Math.random() * 14 + "px";
     hearts.appendChild(h);
   }
 
@@ -194,14 +180,11 @@
   let hoverCount = 0;
   let noLocked = false;
 
-  const baseX = noBtn.offsetLeft;
-  const baseY = noBtn.offsetTop;
-
   noBtn.addEventListener("mouseover", () => {
     if (noLocked || hoverCount >= 3) return;
 
     noBtn.style.transform =
-      `translate(${Math.random() * 120 - 60}px, ${Math.random() * 50 - 25}px)`;
+      `translate(${Math.random()*120 - 60}px, ${Math.random()*50 - 25}px)`;
 
     hoverCount++;
 
