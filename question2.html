@@ -19,7 +19,6 @@
     overflow: hidden;
   }
 
-  /* Falling hearts */
   .hearts {
     position: fixed;
     inset: 0;
@@ -30,7 +29,7 @@
   .heart {
     position: absolute;
     top: -20px;
-    color: rgba(255, 215, 215, 0.35);
+    color: rgba(255,215,215,0.35);
     font-size: 16px;
     animation: fall linear infinite;
   }
@@ -46,13 +45,11 @@
     padding: 70px 90px;
     border-radius: 26px;
     text-align: center;
-    backdrop-filter: blur(6px);
     max-width: 900px;
   }
 
   h1 {
     font-size: 36px;
-    line-height: 1.4;
     margin-bottom: 45px;
   }
 
@@ -63,7 +60,7 @@
   }
 
   .package {
-    padding: 36px 28px;
+    padding: 36px;
     border-radius: 18px;
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.3);
@@ -80,7 +77,6 @@
   .result {
     margin-top: 40px;
     font-size: 22px;
-    line-height: 1.5;
   }
 
   .result img {
@@ -131,70 +127,66 @@
 </div>
 
 <script>
-  /* Hearts generator */
+  /* Hearts */
   const heartsContainer = document.getElementById("hearts");
   for (let i = 0; i < 30; i++) {
     const heart = document.createElement("div");
     heart.className = "heart";
-    heart.innerHTML = "♥";
+    heart.textContent = "♥";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.animationDuration = 6 + Math.random() * 6 + "s";
-    heart.style.fontSize = 12 + Math.random() * 14 + "px";
     heartsContainer.appendChild(heart);
   }
 
   const clickedPackages = new Set();
+  let showingResult = false;
 
   const packages = document.querySelectorAll(".package");
+  const packagesWrap = document.getElementById("packages");
   const result = document.getElementById("result");
   const heading = document.getElementById("heading");
   const card = document.getElementById("card");
 
   packages.forEach(pkg => {
     pkg.addEventListener("click", () => {
+      if (showingResult) return; // prevent double clicks
+
       const type = pkg.dataset.type;
       clickedPackages.add(type);
+      showingResult = true;
 
-      packages.forEach(p => p.classList.add("hidden"));
+      packagesWrap.classList.add("hidden");
       heading.classList.add("hidden");
 
       if (type === "home") {
-        result.innerHTML = `
-          No external API calls needed. You manage the full stack from appetizers to the final “Sweet” commit.
-          <br><img src="chef.gif">
-        `;
-      }
-
-      if (type === "spin") {
+        result.innerHTML = `No external API calls needed.<br><img src="chef.gif">`;
+      } else if (type === "spin") {
         result.innerHTML = `
           <div class="spin-links">
             <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
             <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
           </div>
         `;
-      }
-
-      if (type === "throughput") {
+      } else if (type === "throughput") {
         result.innerHTML = `<img src="shopping.gif">`;
+      } else if (type === "offgrid") {
+        result.innerHTML = `We’re going offline.<br><img src="trip.gif">`;
       }
-
-      if (type === "offgrid") {
-        result.innerHTML = `
-          We’re going offline and you are paying for the strawberry matcha.
-          <br><img src="trip.gif">
-        `;
-      }
-
-      card.onmouseleave = () => {
-        result.innerHTML = "";
-        packages.forEach(p => p.classList.remove("hidden"));
-        heading.classList.remove("hidden");
-
-        if (clickedPackages.size === 4) {
-          window.location.href = "final.html";
-        }
-      };
     });
+  });
+
+  /* ONE clean reset handler */
+  card.addEventListener("mouseleave", () => {
+    if (!showingResult) return;
+
+    result.innerHTML = "";
+    packagesWrap.classList.remove("hidden");
+    heading.classList.remove("hidden");
+    showingResult = false;
+
+    if (clickedPackages.size === 4) {
+      window.location.href = "final.html";
+    }
   });
 </script>
 
