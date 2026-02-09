@@ -103,23 +103,6 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
-
-  .continue-btn {
-    margin-top: 35px;
-    padding: 12px 36px;
-    font-size: 18px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    background: #f4e1c1;
-    color: #3b0000;
-    box-shadow: 0 6px 0 #cdb48d;
-  }
-
-  .continue-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #cdb48d;
-  }
 </style>
 </head>
 
@@ -127,7 +110,7 @@
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card">
+<div class="card" id="card">
 
   <h1 id="heading">
     Ok coder — please select one of the following<br>
@@ -165,7 +148,9 @@
   const heading = document.getElementById("heading");
 
   packages.forEach(pkg => {
-    pkg.addEventListener("click", () => {
+    pkg.addEventListener("click", (e) => {
+      e.stopPropagation(); // 🔑 prevent instant close
+
       const type = pkg.dataset.type;
       clicked.add(type);
 
@@ -178,7 +163,6 @@
           No external API calls needed. You manage the full stack from appetizers
           to the final “Sweet” commit.
           <br><img src="chef.gif">
-          <br><button class="continue-btn">Continue</button>
         `;
       }
 
@@ -188,38 +172,35 @@
             <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
             <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
           </div>
-          <br><button class="continue-btn">Continue</button>
         `;
       }
 
       if (type === "throughput") {
-        result.innerHTML = `
-          <img src="shopping.gif">
-          <br><button class="continue-btn">Continue</button>
-        `;
+        result.innerHTML = `<img src="shopping.gif">`;
       }
 
       if (type === "offgrid") {
         result.innerHTML = `
           We’re going offline and you are paying for the strawberry matcha.
           <br><img src="trip.gif">
-          <br><button class="continue-btn">Continue</button>
         `;
       }
 
-      result.querySelector(".continue-btn").addEventListener("click", () => {
-        result.classList.add("hidden");
-        packagesWrap.classList.remove("hidden");
-        heading.classList.remove("hidden");
-
-        if (clicked.size === 4) {
-          window.location.href = "final.html";
-        }
-      });
+      // 🔥 ANY click anywhere continues
+      document.addEventListener("click", handleNext, { once: true });
     });
   });
+
+  function handleNext() {
+    result.classList.add("hidden");
+    packagesWrap.classList.remove("hidden");
+    heading.classList.remove("hidden");
+
+    if (clicked.size === 4) {
+      window.location.href = "final.html";
+    }
+  }
 </script>
 
 </body>
 </html>
-
