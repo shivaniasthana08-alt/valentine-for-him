@@ -19,20 +19,20 @@
     overflow: hidden;
   }
 
-  /* Falling hearts */
+  /* Hearts rain */
   .hearts {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
 
   .heart {
     position: absolute;
     top: -20px;
     color: rgba(255, 215, 215, 0.35);
-    font-size: 16px;
     animation: fall linear infinite;
+    font-size: 18px;
   }
 
   @keyframes fall {
@@ -55,27 +55,30 @@
     letter-spacing: 1.2px;
   }
 
-  /* Button row */
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 26px;
+  /* Buttons row */
+  .button-row {
     position: relative;
-    height: 90px;
+    height: 80px;
+    margin-bottom: 20px;
   }
 
-  /* Keyboard-style buttons */
+  .button-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+  }
+
   button {
     padding: 14px 42px;
     font-size: 17px;
-    border-radius: 14px;
     font-family: inherit;
+    border-radius: 14px;
     cursor: pointer;
     border: none;
     transition: all 0.15s ease;
   }
 
+  /* Keyboard style */
   .yes {
     background: #f4e1c1;
     color: #3b0000;
@@ -87,6 +90,8 @@
     color: #ffffff;
     box-shadow: 0 6px 0 #111;
     position: absolute;
+    left: 50%;
+    transform: translateX(80px);
   }
 
   button:hover {
@@ -101,7 +106,7 @@
   .hidden { display: none; }
 
   .message {
-    margin-top: 34px;
+    margin-top: 30px;
   }
 
   .message h2 {
@@ -117,23 +122,22 @@
 
   /* Gift */
   .next-step {
-    margin-top: 42px;
+    margin-top: 40px;
   }
 
   .gift-btn {
-    margin-top: 24px;
     font-size: 64px;
-    background: transparent;
+    background: none;
     border: none;
     cursor: pointer;
-    animation: giftPulse 1.6s ease-in-out infinite;
+    animation: pulse 1.5s ease-in-out infinite;
   }
 
-  @keyframes giftPulse {
-    0%   { transform: scale(1); }
-    25%  { transform: scale(1.1) rotate(-4deg); }
-    50%  { transform: scale(1); }
-    75%  { transform: scale(1.1) rotate(4deg); }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1) rotate(-4deg); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1) rotate(4deg); }
     100% { transform: scale(1); }
   }
 </style>
@@ -147,12 +151,14 @@
 
   <h1>Will you be my Valentine?</h1>
 
-  <div class="container" id="buttonRow">
-    <button class="yes" id="yesBtn">Yes</button>
+  <div class="button-row">
+    <div class="button-wrap">
+      <button class="yes" id="yesBtn">Yes</button>
+    </div>
     <button class="no" id="noBtn">No</button>
   </div>
 
-  <!-- NO message -->
+  <!-- NO result -->
   <div id="wrongAnswer" class="message hidden">
     <h2>
       I see. Would you like to speak to a manager?<br>
@@ -161,9 +167,83 @@
     <img src="poorly.gif">
   </div>
 
-  <!-- YES message -->
+  <!-- YES result -->
   <div id="rightAnswer" class="message hidden">
     <h2>Congratulations! You finally chose wisely.</h2>
     <img src="Cat kissing.gif">
   </div>
 
+  <!-- Gift -->
+  <div id="nextStep" class="next-step hidden">
+    <h2>Now it’s time to exchange gifts</h2>
+    <button class="gift-btn" id="giftBtn">🎁</button>
+  </div>
+
+</div>
+
+<script>
+  /* Hearts rain */
+  const hearts = document.getElementById("hearts");
+  for (let i = 0; i < 35; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "♥";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = 6 + Math.random() * 6 + "s";
+    h.style.fontSize = 12 + Math.random() * 16 + "px";
+    hearts.appendChild(h);
+  }
+
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+
+  let hoverCount = 0;
+  let noLocked = false;
+
+  const baseLeft = noBtn.offsetLeft;
+  const baseTop = noBtn.offsetTop;
+
+  noBtn.addEventListener("mouseover", () => {
+    if (noLocked || hoverCount >= 3) return;
+
+    noBtn.style.left = baseLeft + (Math.random() * 200 - 100) + "px";
+    noBtn.style.top = baseTop + (Math.random() * 60 - 30) + "px";
+    hoverCount++;
+
+    if (hoverCount === 3) {
+      setTimeout(() => {
+        noBtn.style.left = baseLeft + "px";
+        noBtn.style.top = baseTop + "px";
+      }, 250);
+    }
+  });
+
+  noBtn.addEventListener("click", () => {
+    if (noLocked || hoverCount < 3) return;
+
+    document.getElementById("wrongAnswer").classList.remove("hidden");
+    noLocked = true;
+    noBtn.remove();
+
+    setTimeout(() => {
+      document.getElementById("wrongAnswer").classList.add("hidden");
+    }, 7000);
+  });
+
+  yesBtn.addEventListener("click", () => {
+    yesBtn.remove();
+    document.getElementById("rightAnswer").classList.remove("hidden");
+
+    setTimeout(() => {
+      document.getElementById("nextStep").classList.remove("hidden");
+    }, 3000);
+  });
+
+  document.getElementById("giftBtn").addEventListener("click", () => {
+    window.location.href = "question2.html";
+  });
+</script>
+
+</body>
+</html>
+ƒ
