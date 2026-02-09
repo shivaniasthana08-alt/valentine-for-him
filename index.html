@@ -43,50 +43,65 @@
     position: relative;
     z-index: 2;
     background: rgba(0,0,0,0.28);
-    padding: 65px 85px;
-    border-radius: 24px;
+    padding: 70px 90px;
+    border-radius: 26px;
     text-align: center;
     backdrop-filter: blur(6px);
   }
 
   h1 {
     font-size: 46px;
-    margin-bottom: 45px;
+    margin-bottom: 50px;
     letter-spacing: 1.2px;
   }
 
+  /* Button row */
   .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
     position: relative;
     height: 90px;
   }
 
+  /* Keyboard-style buttons */
   button {
-    padding: 14px 40px;
+    padding: 14px 42px;
     font-size: 17px;
-    border-radius: 40px;
-    border: none;
-    cursor: pointer;
+    border-radius: 14px;
     font-family: inherit;
-    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
   }
 
   .yes {
     background: #f4e1c1;
     color: #3b0000;
-    margin-right: 22px;
+    box-shadow: 0 6px 0 #cdb48d;
   }
 
   .no {
-    background: transparent;
+    background: #2b2b2b;
     color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 6px 0 #111;
     position: absolute;
+  }
+
+  button:hover {
+    transform: translateY(-1px);
+  }
+
+  button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.4);
   }
 
   .hidden { display: none; }
 
   .message {
-    margin-top: 32px;
+    margin-top: 34px;
   }
 
   .message h2 {
@@ -100,13 +115,13 @@
     border-radius: 16px;
   }
 
-  /* Gift animation */
+  /* Gift */
   .next-step {
-    margin-top: 40px;
+    margin-top: 42px;
   }
 
   .gift-btn {
-    margin-top: 22px;
+    margin-top: 24px;
     font-size: 64px;
     background: transparent;
     border: none;
@@ -115,7 +130,7 @@
   }
 
   @keyframes giftPulse {
-    0%   { transform: scale(1) rotate(0deg); }
+    0%   { transform: scale(1); }
     25%  { transform: scale(1.1) rotate(-4deg); }
     50%  { transform: scale(1); }
     75%  { transform: scale(1.1) rotate(4deg); }
@@ -132,12 +147,12 @@
 
   <h1>Will you be my Valentine?</h1>
 
-  <div class="container">
+  <div class="container" id="buttonRow">
     <button class="yes" id="yesBtn">Yes</button>
     <button class="no" id="noBtn">No</button>
   </div>
 
-  <!-- NO message (shown once only) -->
+  <!-- NO message -->
   <div id="wrongAnswer" class="message hidden">
     <h2>
       I see. Would you like to speak to a manager?<br>
@@ -152,77 +167,3 @@
     <img src="Cat kissing.gif">
   </div>
 
-  <!-- Gift -->
-  <div id="nextStep" class="next-step hidden">
-    <h2>Now it’s time to exchange gifts</h2>
-    <button class="gift-btn" id="giftBtn">🎁</button>
-  </div>
-
-</div>
-
-<script>
-  /* Falling hearts */
-  const heartsContainer = document.getElementById("hearts");
-  for (let i = 0; i < 36; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "♥";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = 6 + Math.random() * 6 + "s";
-    heart.style.fontSize = 12 + Math.random() * 14 + "px";
-    heartsContainer.appendChild(heart);
-  }
-
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const giftBtn = document.getElementById("giftBtn");
-  const wrongAnswer = document.getElementById("wrongAnswer");
-
-  let hoverCount = 0;
-  let noFinalized = false;
-
-  const originalLeft = noBtn.offsetLeft;
-  const originalTop = noBtn.offsetTop;
-
-  noBtn.addEventListener("mouseover", () => {
-    if (noFinalized) return;
-
-    if (hoverCount < 3) {
-      noBtn.style.left = Math.random() * 300 + "px";
-      noBtn.style.top = Math.random() * 120 + "px";
-      hoverCount++;
-
-      if (hoverCount === 3) {
-        setTimeout(() => {
-          noBtn.style.left = originalLeft + "px";
-          noBtn.style.top = originalTop + "px";
-        }, 300);
-      }
-    }
-  });
-
-  noBtn.addEventListener("click", () => {
-    if (noFinalized || hoverCount < 3) return;
-
-    wrongAnswer.classList.remove("hidden");
-    noFinalized = true;
-
-    setTimeout(() => {
-      wrongAnswer.classList.add("hidden");
-    }, 7000);
-  });
-
-  yesBtn.addEventListener("click", () => {
-    document.getElementById("rightAnswer").classList.remove("hidden");
-    setTimeout(() => {
-      document.getElementById("nextStep").classList.remove("hidden");
-    }, 3000);
-  });
-
-  giftBtn.addEventListener("click", () => {
-    window.location.href = "question2.html";
-  });
-</script>
-
-</body>
-</html>
