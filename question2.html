@@ -19,7 +19,6 @@
     overflow: hidden;
   }
 
-  /* ❤️ Falling hearts */
   .hearts {
     position: fixed;
     inset: 0;
@@ -124,7 +123,8 @@
 
 <div class="card">
 
-  <h1>
+  <!-- ✅ CHANGE 1: add id -->
+  <h1 id="heading">
     Ok coder — please select one of the following<br>
     <strong>Service Packages</strong> to commit to the database.
   </h1>
@@ -141,7 +141,7 @@
 </div>
 
 <script>
-  /* ❤️ Hearts generator */
+  /* Hearts generator */
   const heartsContainer = document.getElementById("hearts");
   for (let i = 0; i < 30; i++) {
     const heart = document.createElement("div");
@@ -155,6 +155,7 @@
 
   const packages = document.querySelectorAll(".package");
   const result = document.getElementById("result");
+  const heading = document.getElementById("heading"); // ✅ CHANGE 2
 
   packages.forEach(pkg => {
     pkg.addEventListener("click", () => handleSelection(pkg.dataset.type));
@@ -167,10 +168,12 @@
   function showAllPackages() {
     packages.forEach(p => p.classList.remove("hidden"));
     result.innerHTML = "";
+    heading.classList.remove("hidden"); // ✅ CHANGE 4
   }
 
   function handleSelection(type) {
     hideAllPackages();
+    heading.classList.add("hidden"); // ✅ CHANGE 3
 
     if (type === "home") {
       result.innerHTML = `
