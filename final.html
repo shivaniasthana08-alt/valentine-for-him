@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Final</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #8b0000;
+    color: #ffffff;
+    font-family: "Cormorant Garamond", serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .claps {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .clap {
+    position: absolute;
+    top: -20px;
+    font-size: 28px;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(110vh); }
+  }
+
+  .card {
+    z-index: 2;
+  }
+
+  h1 {
+    font-size: 42px;
+    margin-bottom: 25px;
+  }
+
+  img {
+    width: 300px;
+    border-radius: 18px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="claps" id="claps"></div>
+
+<div class="card">
+  <h1>Ok, That was fun! Well now</h1>
+  <img src="move.gif">
+</div>
+
+<script>
+  const claps = document.getElementById("claps");
+  const emojis = ["👏", "🙉"];
+
+  for (let i = 0; i < 40; i++) {
+    const c = document.createElement("div");
+    c.className = "clap";
+    c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 4 + Math.random() * 5 + "s";
+    claps.appendChild(c);
+  }
+</script>
+
+</body>
+</html>
