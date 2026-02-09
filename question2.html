@@ -159,12 +159,14 @@
       clicked.add(type);
       isShowing = true;
 
-      packagesWrap.classList.add("disabled");
+      // ✅ Hide options cleanly AFTER click
+      packagesWrap.classList.add("hidden");
       heading.classList.add("hidden");
 
       if (type === "home") {
         result.innerHTML = `
-          No external API calls needed. You manage the full stack from appetizers to the final “Sweet” commit.
+          No external API calls needed. You manage the full stack from appetizers
+          to the final “Sweet” commit.
           <br><img src="chef.gif">
         `;
       }
@@ -191,12 +193,12 @@
     });
   });
 
-  /* Cursor-based transition */
+  /* Cursor-based reset */
   card.addEventListener("mouseleave", () => {
     if (!isShowing) return;
 
     result.innerHTML = "";
-    packagesWrap.classList.remove("disabled");
+    packagesWrap.classList.remove("hidden");
     heading.classList.remove("hidden");
     isShowing = false;
 
@@ -204,6 +206,7 @@
       window.location.href = "final.html";
     }
   });
+
 </script>
 
 </body>
