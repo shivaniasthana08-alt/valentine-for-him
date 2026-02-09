@@ -19,7 +19,7 @@
     overflow: hidden;
   }
 
-  /* Falling hearts */
+  /* ❤️ Falling hearts */
   .hearts {
     position: fixed;
     inset: 0;
@@ -54,7 +54,6 @@
     font-size: 36px;
     line-height: 1.4;
     margin-bottom: 45px;
-    letter-spacing: 1px;
   }
 
   .packages {
@@ -84,8 +83,12 @@
     box-shadow: 0 2px 0 rgba(0,0,0,0.4);
   }
 
+  .hidden {
+    display: none;
+  }
+
   .result {
-    margin-top: 45px;
+    margin-top: 40px;
     font-size: 22px;
     line-height: 1.5;
   }
@@ -99,9 +102,9 @@
   .spin-links {
     display: flex;
     justify-content: center;
-    gap: 50px;
+    gap: 60px;
     font-size: 64px;
-    margin-top: 25px;
+    margin-top: 30px;
   }
 
   .spin-links a {
@@ -127,10 +130,10 @@
   </h1>
 
   <div class="packages" id="packages">
-    <div class="package" onclick="selectPackage('home')">Home Court Advantage</div>
-    <div class="package" onclick="selectPackage('spin')">Spin &amp; Sculpt</div>
-    <div class="package" onclick="selectPackage('throughput')">Unlimited Throughput</div>
-    <div class="package" onclick="selectPackage('offgrid')">Off-Grid Query</div>
+    <div class="package" data-type="home">Home Court Advantage</div>
+    <div class="package" data-type="spin">Spin &amp; Sculpt</div>
+    <div class="package" data-type="throughput">Unlimited Throughput</div>
+    <div class="package" data-type="offgrid">Off-Grid Query</div>
   </div>
 
   <div id="result" class="result"></div>
@@ -138,33 +141,39 @@
 </div>
 
 <script>
-  /* Hearts */
+  /* ❤️ Hearts generator */
   const heartsContainer = document.getElementById("hearts");
   for (let i = 0; i < 30; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "♥";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 6 + Math.random() * 6 + "s";
-    h.style.fontSize = 12 + Math.random() * 14 + "px";
-    heartsContainer.appendChild(h);
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "♥";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+    heart.style.fontSize = 12 + Math.random() * 14 + "px";
+    heartsContainer.appendChild(heart);
   }
 
-  const packagesEl = document.getElementById("packages");
-  const resultEl = document.getElementById("result");
+  const packages = document.querySelectorAll(".package");
+  const result = document.getElementById("result");
 
-  function resetAfterDelay() {
-    setTimeout(() => {
-      resultEl.innerHTML = "";
-      packagesEl.style.display = "grid";
-    }, 7000);
+  packages.forEach(pkg => {
+    pkg.addEventListener("click", () => handleSelection(pkg.dataset.type));
+  });
+
+  function hideAllPackages() {
+    packages.forEach(p => p.classList.add("hidden"));
   }
 
-  function selectPackage(type) {
-    packagesEl.style.display = "none";
+  function showAllPackages() {
+    packages.forEach(p => p.classList.remove("hidden"));
+    result.innerHTML = "";
+  }
+
+  function handleSelection(type) {
+    hideAllPackages();
 
     if (type === "home") {
-      resultEl.innerHTML = `
+      result.innerHTML = `
         No external API calls needed. You manage the full stack from appetizers to the final “Sweet” commit.
         <br>
         <img src="chef.gif">
@@ -172,4 +181,29 @@
     }
 
     if (type === "spin") {
-      resultEl.inn
+      result.innerHTML = `
+        <div class="spin-links">
+          <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
+          <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
+        </div>
+      `;
+    }
+
+    if (type === "throughput") {
+      result.innerHTML = `<img src="shopping.gif">`;
+    }
+
+    if (type === "offgrid") {
+      result.innerHTML = `
+        We’re going offline and you are paying for the strawberry matcha.
+        <br>
+        <img src="trip.gif">
+      `;
+    }
+
+    setTimeout(showAllPackages, 7000);
+  }
+</script>
+
+</body>
+</html>
