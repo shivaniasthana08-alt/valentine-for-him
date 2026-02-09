@@ -84,7 +84,7 @@
   let hoverCount = 0;
 
   noBtn.addEventListener("mouseover", () => {
-    if (hoverCount < 6) {
+    if (hoverCount < 3) {
       noBtn.style.left = Math.random() * 300 + "px";
       noBtn.style.top = Math.random() * 120 + "px";
       hoverCount++;
@@ -92,7 +92,7 @@
   });
 
   noBtn.addEventListener("click", () => {
-    if (hoverCount >= 6) {
+    if (hoverCount >= 3) {
       document.getElementById("wrongAnswer").classList.remove("hidden");
       setTimeout(() => {
         document.getElementById("wrongAnswer").classList.add("hidden");
