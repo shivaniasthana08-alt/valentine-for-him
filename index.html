@@ -2,114 +2,185 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Valentine ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: #8b0000;
-    color: #ffffff;
-    font-family: "Cormorant Garamond", serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
 
-  /* Falling hearts */
-  .hearts {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+body{
+margin:0;
+min-height:100vh;
+background:#8b0000;
+color:white;
+font-family:"Cormorant Garamond",serif;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow-x:hidden;
+padding:20px;
+}
 
-  .heart {
-    position: absolute;
-    top: -20px;
-    color: rgba(255,215,215,0.35);
-    font-size: 16px;
-    animation: fall linear infinite;
-  }
+/* Falling background hearts */
 
-  @keyframes fall {
-    to { transform: translateY(110vh); }
-  }
+.hearts{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+}
 
-  .card {
-    position: relative;
-    z-index: 2;
-    background: rgba(0,0,0,0.28);
-    padding: 70px 90px;
-    border-radius: 26px;
-    text-align: center;
-    width: 700px;
-  }
+.heart{
+position:absolute;
+top:-20px;
+color:rgba(255,215,215,0.35);
+font-size:16px;
+animation:fall linear infinite;
+}
 
-  h1 {
-    font-size: 46px;
-    margin-bottom: 45px;
-  }
+@keyframes fall{
+to{transform:translateY(110vh);}
+}
 
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    margin-bottom: 20px;
-  }
+/* Heart explosion */
 
-  button {
-    width: 150px;
-    padding: 14px 0;
-    font-size: 18px;
-    border-radius: 16px;
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-  }
+.explosion-heart{
+position:fixed;
+font-size:24px;
+animation:explode 900ms ease-out forwards;
+pointer-events:none;
+}
 
-  .yes {
-    background: #f4e1c1;
-    color: #3b0000;
-  }
+@keyframes explode{
+0%{transform:scale(0);opacity:1;}
+100%{transform:translate(var(--x),var(--y)) scale(1.8);opacity:0;}
+}
 
-  .no {
-    background: #2b2b2b;
-    color: #ffffff;
-    position: relative;
-  }
+/* Card */
 
-  .hidden { display: none; }
+.card{
+position:relative;
+z-index:2;
+background:rgba(0,0,0,0.28);
+padding:50px 40px;
+border-radius:26px;
+text-align:center;
+width:90%;
+max-width:700px;
+}
 
-  .message {
-    margin-top: 30px;
-  }
+h1{
+font-size:42px;
+margin-bottom:40px;
+}
 
-  .message h2 {
-    font-size: 22px;
-    line-height: 1.45;
-    margin-bottom: 18px;
-  }
+.buttons{
+display:flex;
+justify-content:center;
+gap:28px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
 
-  img {
-    width: 260px;
-    border-radius: 16px;
-  }
+button{
+width:150px;
+padding:14px 0;
+font-size:18px;
+border-radius:16px;
+cursor:pointer;
+border:none;
+font-family:inherit;
+transition:all .25s;
+}
 
-  .gift-btn {
-    font-size: 64px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    animation: pulse 1.6s ease-in-out infinite;
-  }
+button:active{
+transform:scale(.95);
+}
 
-  @keyframes pulse {
-    50% { transform: scale(1.1); }
-  }
+.yes{
+background:#f4e1c1;
+color:#3b0000;
+}
+
+.no{
+background:#2b2b2b;
+color:white;
+position:relative;
+}
+
+.hidden{
+display:none;
+}
+
+.message{
+margin-top:30px;
+}
+
+.message h2{
+font-size:22px;
+line-height:1.45;
+margin-bottom:18px;
+}
+
+img{
+width:100%;
+max-width:260px;
+border-radius:16px;
+}
+
+/* Gift animation */
+
+.gift-btn{
+font-size:64px;
+background:none;
+border:none;
+cursor:pointer;
+animation:pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse{
+50%{transform:scale(1.15);}
+}
+
+.gift-open{
+animation:openGift .7s forwards;
+}
+
+@keyframes openGift{
+0%{transform:scale(1);}
+50%{transform:scale(1.4) rotate(12deg);}
+100%{transform:scale(0);opacity:0;}
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+h1{
+font-size:30px;
+}
+
+.card{
+padding:35px 22px;
+}
+
+.buttons{
+flex-direction:column;
+gap:14px;
+}
+
+button{
+width:100%;
+}
+
+.message h2{
+font-size:20px;
+}
+
+}
+
 </style>
 </head>
 
@@ -119,114 +190,193 @@
 
 <div class="card">
 
-  <h1>Will you be my Valentine?</h1>
+<h1>Will you be my Valentine?</h1>
 
-  <div class="buttons">
-    <button class="yes" id="yesBtn">Yes</button>
-    <button class="no" id="noBtn">No</button>
-  </div>
+<div class="buttons">
+<button class="yes" id="yesBtn">Yes</button>
+<button class="no" id="noBtn">No</button>
+</div>
 
-  <!-- NO content -->
-  <div id="wrongAnswer" class="message hidden">
-    <h2>
-      I see. Would you like to speak to a manager?<br>
-      Oh wait, that’s also me — so come on, let’s try again!
-    </h2>
-    <img src="poorly.gif">
-  </div>
+<div id="wrongAnswer" class="message hidden">
+<h2>
+I see. Would you like to speak to a manager?<br>
+Oh wait, that’s also me — so come on, let’s try again!
+</h2>
+<img src="poorly.gif">
+</div>
 
-  <!-- YES content -->
-  <div id="rightAnswer" class="message hidden">
-    <h2>Congratulations! You finally chose wisely.</h2>
-    <img src="Cat kissing.gif">
-  </div>
+<div id="rightAnswer" class="message hidden">
+<h2>Congratulations! You finally chose wisely.</h2>
+<img src="Cat kissing.gif">
+</div>
 
-  <div id="nextStep" class="message hidden">
-    <h2>Now it’s time to exchange gifts</h2>
-    <button class="gift-btn" id="giftBtn">🎁</button>
-  </div>
+<div id="nextStep" class="message hidden">
+<h2>Now it’s time to exchange gifts</h2>
+<button class="gift-btn" id="giftBtn">🎁</button>
+</div>
 
 </div>
 
 <script>
-  /* Hearts */
-  const hearts = document.getElementById("hearts");
-  for (let i = 0; i < 30; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.textContent = "♥";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 6 + Math.random() * 6 + "s";
-    hearts.appendChild(h);
-  }
 
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
+/* Falling hearts */
 
-  const wrong = document.getElementById("wrongAnswer");
-  const right = document.getElementById("rightAnswer");
-  const next = document.getElementById("nextStep");
+const hearts=document.getElementById("hearts")
 
-  let hoverCount = 0;
-  let noClickable = false;
-  let noTimeout = null;
+for(let i=0;i<30;i++){
 
-  /* --- NO hover escape --- */
-  noBtn.addEventListener("mouseenter", () => {
-    if (noClickable || hoverCount >= 3) return;
+const h=document.createElement("div")
+h.className="heart"
+h.textContent="♥"
+h.style.left=Math.random()*100+"vw"
+h.style.animationDuration=6+Math.random()*6+"s"
 
-    const x = Math.random() * 120 - 60;
-    const y = Math.random() * 60 - 30;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+hearts.appendChild(h)
 
-    hoverCount++;
+}
 
-    if (hoverCount === 3) {
-      setTimeout(() => {
-        noBtn.style.transform = "translate(0,0)";
-        noClickable = true;
-      }, 200);
-    }
-  });
+/* Elements */
 
-  /* --- NO click --- */
-  noBtn.addEventListener("click", () => {
-    if (!noClickable) return;
+const noBtn=document.getElementById("noBtn")
+const yesBtn=document.getElementById("yesBtn")
 
-    // reset YES content if visible
-    right.classList.add("hidden");
-    next.classList.add("hidden");
+const wrong=document.getElementById("wrongAnswer")
+const right=document.getElementById("rightAnswer")
+const next=document.getElementById("nextStep")
 
-    // show NO content
-    wrong.classList.remove("hidden");
+let hoverCount=0
+let noClickable=false
+let noTimeout=null
 
-    // clear old timeout if any
-    if (noTimeout) clearTimeout(noTimeout);
+function moveNoButton(){
 
-    // hide after 7 seconds
-    noTimeout = setTimeout(() => {
-      wrong.classList.add("hidden");
-    }, 7000);
-  });
+const x=Math.random()*200-100
+const y=Math.random()*120-60
 
-  /* --- YES click --- */
-  yesBtn.addEventListener("click", () => {
-    // hide NO content immediately
-    wrong.classList.add("hidden");
-    if (noTimeout) clearTimeout(noTimeout);
+noBtn.style.transform=`translate(${x}px,${y}px)`
 
-    // show YES content
-    right.classList.remove("hidden");
+}
 
-    // show gift after short delay (optional polish)
-    setTimeout(() => {
-      next.classList.remove("hidden");
-    }, 600);
-  });
+/* Desktop hover escape */
 
-  document.getElementById("giftBtn").addEventListener("click", () => {
-    window.location.href = "question2.html";
-  });
+noBtn.addEventListener("mouseenter",()=>{
+
+if(noClickable||hoverCount>=3)return
+
+moveNoButton()
+
+hoverCount++
+
+if(hoverCount===3){
+
+setTimeout(()=>{
+
+noBtn.style.transform="translate(0,0)"
+noClickable=true
+
+},200)
+
+}
+
+})
+
+/* Mobile tap escape */
+
+noBtn.addEventListener("touchstart",(e)=>{
+
+if(noClickable)return
+
+e.preventDefault()
+
+moveNoButton()
+
+})
+
+/* Click NO */
+
+noBtn.addEventListener("click",()=>{
+
+if(!noClickable)return
+
+right.classList.add("hidden")
+next.classList.add("hidden")
+
+wrong.classList.remove("hidden")
+
+if(noTimeout)clearTimeout(noTimeout)
+
+noTimeout=setTimeout(()=>{
+
+wrong.classList.add("hidden")
+
+},7000)
+
+})
+
+/* Heart explosion */
+
+function heartExplosion(){
+
+for(let i=0;i<25;i++){
+
+const h=document.createElement("div")
+
+h.className="explosion-heart"
+h.textContent="💖"
+
+const x=(Math.random()*400-200)+"px"
+const y=(Math.random()*400-200)+"px"
+
+h.style.left=window.innerWidth/2+"px"
+h.style.top=window.innerHeight/2+"px"
+
+h.style.setProperty("--x",x)
+h.style.setProperty("--y",y)
+
+document.body.appendChild(h)
+
+setTimeout(()=>h.remove(),900)
+
+}
+
+}
+
+/* Click YES */
+
+yesBtn.addEventListener("click",()=>{
+
+wrong.classList.add("hidden")
+
+if(noTimeout)clearTimeout(noTimeout)
+
+heartExplosion()
+
+right.classList.remove("hidden")
+
+setTimeout(()=>{
+
+next.classList.remove("hidden")
+
+},800)
+
+})
+
+/* Gift animation */
+
+document.getElementById("giftBtn").addEventListener("click",()=>{
+
+const gift=document.getElementById("giftBtn")
+
+gift.classList.add("gift-open")
+
+setTimeout(()=>{
+
+window.location.href="question2.html"
+
+},700)
+
+})
+
 </script>
 
 </body>
