@@ -2,107 +2,181 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<!-- mobile scaling -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Service Packages</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: #8b0000;
-    color: #ffffff;
-    font-family: "Cormorant Garamond", serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
 
-  /* Falling hearts */
-  .hearts {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+body{
+margin:0;
+min-height:100vh;
+background:#8b0000;
+color:white;
+font-family:"Cormorant Garamond",serif;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow-x:hidden;
+padding:20px;
+}
 
-  .heart {
-    position: absolute;
-    top: -20px;
-    color: rgba(255,215,215,0.35);
-    font-size: 16px;
-    animation: fall linear infinite;
-  }
+/* background hearts */
 
-  @keyframes fall {
-    to { transform: translateY(110vh); }
-  }
+.hearts{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+}
 
-  .card {
-    position: relative;
-    z-index: 2;
-    background: rgba(0,0,0,0.28);
-    padding: 70px 90px;
-    border-radius: 26px;
-    text-align: center;
-    max-width: 900px;
-  }
+.heart{
+position:absolute;
+top:-20px;
+color:rgba(255,215,215,0.35);
+font-size:16px;
+animation:fall linear infinite;
+}
 
-  h1 {
-    font-size: 36px;
-    margin-bottom: 45px;
-  }
+@keyframes fall{
+to{transform:translateY(110vh);}
+}
 
-  .packages {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
+/* heart burst */
 
-  .package {
-    padding: 36px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.3);
-    cursor: pointer;
-    font-size: 24px;
-    transition: transform 0.15s ease;
-    box-shadow: 0 6px 0 rgba(0,0,0,0.45);
-  }
+.explosion-heart{
+position:fixed;
+font-size:22px;
+animation:explode 800ms ease-out forwards;
+pointer-events:none;
+}
 
-  .package:hover { transform: translateY(-3px); }
+@keyframes explode{
+0%{transform:scale(0);opacity:1;}
+100%{transform:translate(var(--x),var(--y)) scale(1.6);opacity:0;}
+}
 
-  .hidden { display: none; }
+/* card */
 
-  .result {
-    margin-top: 40px;
-    font-size: 22px;
-    line-height: 1.5;
-  }
+.card{
+position:relative;
+z-index:2;
+background:rgba(0,0,0,0.28);
+padding:60px 60px;
+border-radius:26px;
+text-align:center;
+width:90%;
+max-width:900px;
+}
 
-  .result img {
-    width: 260px;
-    margin-top: 20px;
-    border-radius: 16px;
-  }
+h1{
+font-size:34px;
+margin-bottom:40px;
+line-height:1.3;
+}
 
-  .spin-links {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    font-size: 64px;
-    margin-top: 30px;
-  }
+/* packages grid */
 
-  .spin-links a {
-    text-decoration: none;
-    animation: spin 2s linear infinite;
-  }
+.packages{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:26px;
+}
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+.package{
+padding:34px;
+border-radius:18px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.3);
+cursor:pointer;
+font-size:24px;
+transition:all .18s ease;
+box-shadow:0 6px 0 rgba(0,0,0,0.45);
+}
+
+.package:hover{
+transform:translateY(-4px);
+}
+
+.package:active{
+transform:scale(.95);
+}
+
+/* result */
+
+.hidden{
+display:none;
+}
+
+.result{
+margin-top:40px;
+font-size:22px;
+line-height:1.5;
+}
+
+.result img{
+width:100%;
+max-width:260px;
+margin-top:20px;
+border-radius:16px;
+}
+
+/* spinning links */
+
+.spin-links{
+display:flex;
+justify-content:center;
+gap:60px;
+font-size:64px;
+margin-top:30px;
+}
+
+.spin-links a{
+text-decoration:none;
+animation:spin 2s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+/* ---------- mobile ---------- */
+
+@media(max-width:700px){
+
+.card{
+padding:40px 24px;
+}
+
+h1{
+font-size:28px;
+}
+
+.packages{
+grid-template-columns:1fr;
+gap:18px;
+}
+
+.package{
+font-size:20px;
+padding:26px;
+}
+
+.spin-links{
+font-size:52px;
+gap:40px;
+}
+
+.result{
+font-size:20px;
+}
+
+}
+
 </style>
 </head>
 
@@ -110,96 +184,153 @@
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card" id="card">
+<div class="card">
 
-  <h1 id="heading">
-    Ok coder — please select one of the following<br>
-    <strong>Service Packages</strong> to commit to the database.
-  </h1>
+<h1 id="heading">
+Ok coder — please select one of the following<br>
+<strong>Service Packages</strong> to commit to the database.
+</h1>
 
-  <div class="packages" id="packages">
-    <div class="package" data-type="home">Home Court Advantage</div>
-    <div class="package" data-type="spin">Spin &amp; Sculpt</div>
-    <div class="package" data-type="throughput">Unlimited Throughput</div>
-    <div class="package" data-type="offgrid">Off-Grid Query</div>
-  </div>
+<div class="packages" id="packages">
 
-  <div id="result" class="result hidden"></div>
+<div class="package" data-type="home">Home Court Advantage</div>
+<div class="package" data-type="spin">Spin & Sculpt</div>
+<div class="package" data-type="throughput">Unlimited Throughput</div>
+<div class="package" data-type="offgrid">Off-Grid Query</div>
+
+</div>
+
+<div id="result" class="result hidden"></div>
 
 </div>
 
 <script>
-  /* Hearts */
-  const hearts = document.getElementById("hearts");
-  for (let i = 0; i < 30; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.textContent = "♥";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 6 + Math.random() * 6 + "s";
-    hearts.appendChild(h);
-  }
 
-  const clicked = new Set();
+/* falling hearts */
 
-  const packagesWrap = document.getElementById("packages");
-  const packages = document.querySelectorAll(".package");
-  const result = document.getElementById("result");
-  const heading = document.getElementById("heading");
+const hearts=document.getElementById("hearts")
 
-  packages.forEach(pkg => {
-    pkg.addEventListener("click", (e) => {
-      e.stopPropagation(); // 🔑 prevent instant close
+for(let i=0;i<30;i++){
 
-      const type = pkg.dataset.type;
-      clicked.add(type);
+const h=document.createElement("div")
+h.className="heart"
+h.textContent="♥"
+h.style.left=Math.random()*100+"vw"
+h.style.animationDuration=6+Math.random()*6+"s"
 
-      packagesWrap.classList.add("hidden");
-      heading.classList.add("hidden");
-      result.classList.remove("hidden");
+hearts.appendChild(h)
 
-      if (type === "home") {
-        result.innerHTML = `
-          No external API calls needed. You manage the full stack from appetizers
-          to the final “Sweet” commit.
-          <br><img src="chef.gif">
-        `;
-      }
+}
 
-      if (type === "spin") {
-        result.innerHTML = `
-          <div class="spin-links">
-            <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
-            <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
-          </div>
-        `;
-      }
+/* heart burst */
 
-      if (type === "throughput") {
-        result.innerHTML = `<img src="shopping.gif">`;
-      }
+function heartExplosion(){
 
-      if (type === "offgrid") {
-        result.innerHTML = `
-          We’re going offline and you are paying for the strawberry matcha.
-          <br><img src="trip.gif">
-        `;
-      }
+for(let i=0;i<20;i++){
 
-      // 🔥 ANY click anywhere continues
-      document.addEventListener("click", handleNext, { once: true });
-    });
-  });
+const h=document.createElement("div")
 
-  function handleNext() {
-    result.classList.add("hidden");
-    packagesWrap.classList.remove("hidden");
-    heading.classList.remove("hidden");
+h.className="explosion-heart"
+h.textContent="💖"
 
-    if (clicked.size === 4) {
-      window.location.href = "final.html";
-    }
-  }
+const x=(Math.random()*400-200)+"px"
+const y=(Math.random()*400-200)+"px"
+
+h.style.left=window.innerWidth/2+"px"
+h.style.top=window.innerHeight/2+"px"
+
+h.style.setProperty("--x",x)
+h.style.setProperty("--y",y)
+
+document.body.appendChild(h)
+
+setTimeout(()=>h.remove(),800)
+
+}
+
+}
+
+const clicked=new Set()
+
+const packagesWrap=document.getElementById("packages")
+const packages=document.querySelectorAll(".package")
+const result=document.getElementById("result")
+const heading=document.getElementById("heading")
+
+packages.forEach(pkg=>{
+
+pkg.addEventListener("click",(e)=>{
+
+e.stopPropagation()
+
+heartExplosion()
+
+const type=pkg.dataset.type
+
+clicked.add(type)
+
+packagesWrap.classList.add("hidden")
+heading.classList.add("hidden")
+result.classList.remove("hidden")
+
+if(type==="home"){
+
+result.innerHTML=`
+No external API calls needed. You manage the full stack from appetizers
+to the final “Sweet” commit.
+<br><img src="chef.gif">
+`
+
+}
+
+if(type==="spin"){
+
+result.innerHTML=`
+<div class="spin-links">
+<a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
+<a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
+</div>
+`
+
+}
+
+if(type==="throughput"){
+
+result.innerHTML=`<img src="shopping.gif">`
+
+}
+
+if(type==="offgrid"){
+
+result.innerHTML=`
+We’re going offline and you are paying for the strawberry matcha.
+<br><img src="trip.gif">
+`
+
+}
+
+/* click anywhere to continue */
+
+document.addEventListener("click",handleNext,{once:true})
+
+})
+
+})
+
+function handleNext(){
+
+result.classList.add("hidden")
+packagesWrap.classList.remove("hidden")
+heading.classList.remove("hidden")
+
+if(clicked.size===4){
+
+window.location.href="final.html"
+
+}
+
+}
+
 </script>
 
 </body>
