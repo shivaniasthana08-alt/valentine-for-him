@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Final ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght=600;700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
 min-height:100vh;
+min-height:100dvh; /* Keeps content perfectly centered without Safari address bar clipping */
 background:#8b0000;
 color:white;
 font-family:"Cormorant Garamond",serif;
@@ -23,6 +23,8 @@ align-items:center;
 overflow-x:hidden;
 text-align:center;
 padding:20px;
+-webkit-font-smoothing: antialiased;
+box-sizing: border-box;
 }
 
 .claps{
@@ -34,13 +36,13 @@ z-index:0;
 
 .clap{
 position:absolute;
-top:-20px;
+top:-40px; /* Shifted slightly higher so emojis don't pop into view awkwardly */
 font-size:28px;
 animation:fall linear infinite;
 }
 
 @keyframes fall{
-to{transform:translateY(110vh);}
+to{transform:translateY(115vh);}
 }
 
 .card{
@@ -51,6 +53,7 @@ padding:50px 40px;
 border-radius:26px;
 max-width:600px;
 width:90%;
+box-sizing: border-box;
 }
 
 h1{
