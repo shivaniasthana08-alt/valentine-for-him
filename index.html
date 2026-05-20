@@ -6,13 +6,14 @@
 
 <title>Valentine ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght=600;700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
 min-height:100vh;
+min-height:100dvh; /* Fixes iOS Safari address bar jumpiness */
 background:#8b0000;
 color:white;
 font-family:"Cormorant Garamond",serif;
@@ -21,6 +22,7 @@ justify-content:center;
 align-items:center;
 overflow-x:hidden;
 padding:20px;
+-webkit-font-smoothing: antialiased;
 }
 
 /* Falling background hearts */
@@ -69,6 +71,7 @@ border-radius:26px;
 text-align:center;
 width:90%;
 max-width:700px;
+box-sizing: border-box;
 }
 
 h1{
@@ -93,6 +96,9 @@ cursor:pointer;
 border:none;
 font-family:inherit;
 transition:all .25s;
+-webkit-appearance: none; /* Removes default iOS button styling */
+appearance: none;
+-webkit-tap-highlight-color: transparent; /* Removes gray flash on mobile tap */
 }
 
 button:active{
@@ -108,6 +114,7 @@ color:#3b0000;
 background:#2b2b2b;
 color:white;
 position:relative;
+touch-action: none; /* Prevents zooming/scrolling quirks while chasing the button */
 }
 
 .hidden{
@@ -244,73 +251,62 @@ const wrong=document.getElementById("wrongAnswer")
 const right=document.getElementById("rightAnswer")
 const next=document.getElementById("nextStep")
 
-let hoverCount=0
+let escapeCount=0
 let noClickable=false
 let noTimeout=null
 
 function moveNoButton(){
-
-const x=Math.random()*200-100
-const y=Math.random()*120-60
-
+// Mildly reduced range for mobile screens so it doesn't jump off-screen
+const x=Math.random()*160-80
+const y=Math.random()*100-50
 noBtn.style.transform=`translate(${x}px,${y}px)`
+}
 
+/* Unified trigger mechanism for both hover and touch */
+function handleNoInteraction(e) {
+if(noClickable) return
+
+// Block default touch behaviors (like zooming or click emulation) while running away
+if(e.type === "touchstart") {
+e.preventDefault()
+}
+
+if(escapeCount < 3) {
+moveNoButton()
+escapeCount++
+}
+
+if(escapeCount === 3) {
+setTimeout(()=>{
+noBtn.style.transform="translate(0,0)"
+noClickable=true
+},200)
+}
 }
 
 /* Desktop hover escape */
-
-noBtn.addEventListener("mouseenter",()=>{
-
-if(noClickable||hoverCount>=3)return
-
-moveNoButton()
-
-hoverCount++
-
-if(hoverCount===3){
-
-setTimeout(()=>{
-
-noBtn.style.transform="translate(0,0)"
-noClickable=true
-
-},200)
-
-}
-
-})
+noBtn.addEventListener("mouseenter", handleNoInteraction)
 
 /* Mobile tap escape */
-
-noBtn.addEventListener("touchstart",(e)=>{
-
-if(noClickable)return
-
-e.preventDefault()
-
-moveNoButton()
-
-})
+noBtn.addEventListener("touchstart", handleNoInteraction)
 
 /* Click NO */
-
-noBtn.addEventListener("click",()=>{
-
-if(!noClickable)return
+noBtn.addEventListener("click",(e)=>{
+// Backup logic if a hybrid device bypasses touchstart rules before 3 escapes
+if(!noClickable) {
+handleNoInteraction(e)
+return
+}
 
 right.classList.add("hidden")
 next.classList.add("hidden")
-
 wrong.classList.remove("hidden")
 
 if(noTimeout)clearTimeout(noTimeout)
 
 noTimeout=setTimeout(()=>{
-
 wrong.classList.add("hidden")
-
 },7000)
-
 })
 
 /* Heart explosion */
