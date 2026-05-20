@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Service Packages</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght=500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
 min-height:100vh;
+min-height:100dvh; /* Prevents Safari UI from cutting off the bottom */
 background:#8b0000;
 color:white;
 font-family:"Cormorant Garamond",serif;
@@ -22,6 +22,8 @@ justify-content:center;
 align-items:center;
 overflow-x:hidden;
 padding:20px;
+-webkit-font-smoothing: antialiased;
+box-sizing: border-box;
 }
 
 .hearts{
@@ -64,6 +66,7 @@ border-radius:26px;
 text-align:center;
 width:90%;
 max-width:900px;
+box-sizing: border-box;
 }
 
 h1{
@@ -87,6 +90,7 @@ cursor:pointer;
 font-size:24px;
 transition:all .18s ease;
 box-shadow:0 6px 0 rgba(0,0,0,0.45);
+-webkit-tap-highlight-color: transparent; /* Removes the ugly iOS gray flash on tap */
 }
 
 .package:hover{
@@ -105,6 +109,9 @@ display:none;
 margin-top:40px;
 font-size:22px;
 line-height:1.5;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
 .result img{
@@ -119,12 +126,36 @@ display:flex;
 justify-content:center;
 gap:60px;
 font-size:64px;
-margin-top:30px;
+margin-top:20px;
+margin-bottom:20px;
 }
 
 .spin-links a{
 text-decoration:none;
 animation:spin 2s linear infinite;
+display: inline-block;
+-webkit-tap-highlight-color: transparent;
+}
+
+/* Custom Continue Button for the links selection */
+.continue-btn {
+margin-top: 25px;
+background: #f4e1c1;
+color: #3b0000;
+border: none;
+padding: 12px 35px;
+font-size: 18px;
+border-radius: 12px;
+cursor: pointer;
+font-family: inherit;
+font-weight: 600;
+transition: transform 0.2s;
+-webkit-appearance: none;
+appearance: none;
+}
+
+.continue-btn:active {
+transform: scale(0.95);
 }
 
 @keyframes spin{
@@ -163,7 +194,7 @@ font-size:20px;
 }
 
 </style>
-</head>
+</head>head>
 
 <body>
 
@@ -267,11 +298,20 @@ to the final “Sweet” commit.
 if(type==="spin"){
 
 result.innerHTML=`
+<div style="text-align:center;">
+<p style="margin:0 0 10px 0;">Tap the emojis to look at your surprises!</p>
 <div class="spin-links">
 <a href="https://in.bookmyshow.com/events/pizza-making-date/ET00461460" target="_blank">🍕</a>
 <a href="https://in.bookmyshow.com/events/pottery-workshop/ET00453223" target="_blank">🏺</a>
 </div>
+<button class="continue-btn" id="manualNextBtn">Next ➔</button>
+</div>
 `
+
+// Attach manual redirect listener to the button so they don't get forced away early
+document.getElementById("manualNextBtn").addEventListener("click", () => {
+window.location.href="final.html"
+})
 
 }
 
@@ -290,13 +330,12 @@ We’re going offline and you are paying for the strawberry matcha.
 
 }
 
-/* redirect to final */
-
+/* Automatically redirect ONLY if it's not the interactive links package */
+if(type !== "spin") {
 setTimeout(()=>{
-
 window.location.href="final.html"
-
-},2000)
+},2500) // Bumped slightly to 2.5s so they can actually read the text response
+}
 
 })
 
